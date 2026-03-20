@@ -1,7 +1,13 @@
 ---
-import Navigation from '../components/Navigation.astro'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import profilePic from '../images/profile-pic.jpg'
+import {Image} from 'astro:assets'
 ---
 <BaseLayout>
-  <h1>My Astro Site</h1>
+  <div class="flex max-lg:flex-col gap-8">
+    <Image src={profilePic} alt=''class="rounded-2xl max-lg:hidden w-1/4 h-auto  shadow-xl/30 shadow-black-900" />
+    <div class="w-full lg:w-3/4">
+        <h1 class="text-5xl max-lg:text-center sm:text-9xl font-anta">Hello, I'm Khalid</h1>
+    </div>
+  </div>
 </BaseLayout>
