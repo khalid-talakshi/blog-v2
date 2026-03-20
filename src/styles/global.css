@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-theme-accent: #008FEC;
+  --color-theme-background: #172330;
+  --font-anta: var(--font-anta);
+}
