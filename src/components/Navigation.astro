@@ -1,3 +1,28 @@
-<a href="/">Home</a>
-<a href="/about/">About</a>
-<a href="/blog">Blog</a>
+---
+const routes = [
+  {
+    text: "Home",
+    route: "/"
+  },
+  {
+    text: "About",
+    route: "/about"
+  },
+  {
+    text: "Blog",
+    route: "/blog"
+  }
+]
+
+const currentPath = Astro.url.pathname;
+console.log(currentPath)
+---
+<div class="border border-theme-accent p-2 flex gap-2 my-4 rounded-2xl justify-between">
+  <div class="font-extrabold text-2xl px-2 font-anta">
+    Khalid Talakshi
+  </div>
+  <div class="w-1/6 flex gap-2">
+  {routes.map((route) => (<a href={route.route} class={`hover:text-theme-accent w-full text-center flex justify-center items-center ${currentPath==route.route ? "bg-theme-accent rounded-2xl hover:text-white" : ""}`}>{route.text}</a>))}
+  </div>
+</div>
+
