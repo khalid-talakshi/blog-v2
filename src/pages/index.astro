@@ -6,8 +6,21 @@ import {Image} from 'astro:assets'
 <BaseLayout>
   <div class="flex max-lg:flex-col gap-8">
     <Image src={profilePic} alt=''class="rounded-2xl max-lg:hidden w-1/4 h-auto  shadow-xl/30 shadow-black-900" />
-    <div class="w-full lg:w-3/4">
+    <div class="w-full lg:w-3/4 flex justify-center flex-col gap-2">
         <h1 class="text-5xl max-lg:text-center sm:text-9xl font-anta">Hello, I'm Khalid</h1>
+        <h2 id="typedSubheading" class="text-6xl font-anta"></h2>
     </div>
   </div>
+  <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
+  <script>
+  const typed = new Typed("#typedSubheading", {
+    strings: ["I'm a Student", "I'm an Analyst", "I'm an Engineer"],
+    loop: true,
+    smartBackspace: true,
+    typeSpeed: 50,
+    backSpeed: 50,
+    showCursor: false,
+    loopCount: 3
+  })
+  </script>
 </BaseLayout>
