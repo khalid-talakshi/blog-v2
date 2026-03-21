@@ -10,10 +10,14 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), mdx()],
-  fonts:[{
+  fonts: [{
     provider: fontProviders.google(),
     name: "Anta",
     cssVariable: "--font-anta"
+  }, {
+    provider: fontProviders.google(),
+    name: "Aldrich",
+    cssVariable: "--font-aldrich"
   }],
 
   vite: {

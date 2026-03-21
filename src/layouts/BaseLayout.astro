@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css'
-import Navigation from '../components/Navigation.astro'
 import {Font} from 'astro:assets'
 ---
 <html lang="en">
@@ -11,12 +10,10 @@ import {Font} from 'astro:assets'
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
     <Font cssVariable='--font-anta' />
+    <Font cssVariable='--font-aldrich' />
 		<title>Khalid Talakshi</title>
 	</head>
-  <body class="bg-theme-background text-white">
-    <div class="w-full sm:w-[95%] mx-auto">    
-      <Navigation />
-      <slot />
-    </div>
+  <body class="bg-theme-background text-white font-aldrich">
+    <slot />
   </body>
 </html>

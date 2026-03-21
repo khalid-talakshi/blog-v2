@@ -1,0 +1,11 @@
+---
+import '../styles/global.css'
+import Navigation from '../components/Navigation.astro'
+import BaseLayout from './BaseLayout.astro'
+---
+<BaseLayout>
+    <div class="w-full sm:w-[95%] mx-auto">    
+      <Navigation />
+      <slot />
+    </div>
+</BaseLayout>
