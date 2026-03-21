@@ -19,7 +19,14 @@ const entry = await getEntry('blog', postId);
 const { Content } = await render(entry);
 ---
 <BlogPostLayout>
-  <h1>{entry.data.author}</h1>
+  <div class="flex flex-col gap-4 mb-4 text-gray-50 border-b border-white pb-4">
+    <h1 class="text-6xl">{entry.data.title}</h1>
+    <h2 class="text-2xl text-slate-400">{entry?.data.description}</h2>
+    <div class="flex justify-between">
+        <p class="text-lg text-slate-400">{entry?.data.author}</p>
+        <p class="text-lg text-slate-400">{entry?.data.date}</p>
+    </div>
+  </div>  
   <Prose>
     <Content />
   </Prose>
