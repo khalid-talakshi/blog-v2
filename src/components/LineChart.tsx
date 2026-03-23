@@ -39,9 +39,11 @@ export default function LineGraph({ traces }: Props) {
       data={trace.data}
       name={trace.name}
       stroke={trace.color || undefined}
+      key={trace.name}
     />
   ));
 
+  const firstTrace = traces[0]
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2 w-full rounded-xl text-sm px-2 py-1">
@@ -62,14 +64,14 @@ export default function LineGraph({ traces }: Props) {
         <CartesianGrid strokeDasharray="2 2" stroke="gray" />
         {lines}
         <XAxis
-          dataKey="distance"
+          dataKey={firstTrace.x}
           allowDecimals={false}
           type="number"
           tickCount={4}
           domain={[left, right]}
           allowDataOverflow
         />
-        <YAxis dataKey="speed" domain={[bottom, top]} />
+        <YAxis dataKey={firstTrace.y} domain={[bottom, top]} />
         <Legend />
         <Tooltip shared={true} content={<CustomTooltip />} />
         {refAreaLeft && refAreaRight ? (

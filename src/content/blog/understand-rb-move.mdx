@@ -32,6 +32,21 @@ export const law_trace = {
   color: "#ff0000",
 };
 
+export const tsu_brake_trace = {
+  name: "TSU",
+  x: "distance",
+  y: "brake",
+  data: tsu_data,
+  color: "#fff",
+};
+
+export const ver_brake_trace = {
+  name: "VER",
+  x: "distance",
+  y: "brake",
+  data: ver_data 
+}
+
 After an abysmal performance in China, earning 0 points over 3 point offering sessions, its clear that Lawson needed to either get in gear or retire his position. Unfortunately for him, it seems Red Bull has made that decision for him, with plans to swap him out for Tsunoda at his home grand prix. With only 2 Red Bull races under his belt, and one of two full season rookies at a top team, is it too soon to pull the trigger on Lawson or is Red Bull doing their team right by picking up Tsunoda, a name that has been associated with Red Bull since starting his time in F1, yet only getting the drive now after 4 years with the sister team. Today we are gonna explore the reasons for the swap, understanding the foundation of the team at this point in their life, and look at the driver styles to see how this fairs.
 
 ## A Note Before We Start
@@ -59,7 +74,7 @@ Tsunoda’s graph is identical to Verstappen’s despite being in a different ca
 
 ### Braking
 
-[TODO INSERT GRPAHS]
+<LineGraph client:load traces={[tsu_brake_trace, ver_brake_trace]} />
 
 With the braking, Lawson is clearly shown as a late breaker, with a significant emphasis on shorter, later brake windows. However, this further proves the point that the style Lawson brings is just not suited towards the car. Verstappen prefers earlier braking, with more focus on using the brakes sporadically rather than as a continuous force. This identically matches Tsunoda’s driving style as shown on the right.
 
