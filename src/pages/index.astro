@@ -1,32 +1,45 @@
 ---
-import StandardPageLayout from '../layouts/StandardPageLayout.astro'
-import profilePic from '../images/profile-pic.jpg'
-import {Image} from 'astro:assets'
+import StandardPageLayout from "../layouts/StandardPageLayout.astro";
+import profilePic from "../images/profile-pic.jpg";
+import { Image } from "astro:assets";
 ---
+
 <StandardPageLayout>
   <div class="flex flex-col gap-4">
     <div class="flex max-lg:flex-col gap-8">
-      <Image src={profilePic} alt=''class="rounded-2xl max-lg:hidden w-1/4 h-auto  shadow-xl/30 shadow-black-900" />
+      <Image
+        src={profilePic}
+        alt=""
+        class="rounded-2xl max-lg:hidden w-1/4 h-auto shadow-xl/30 shadow-black-900"
+      />
       <div class="w-full lg:w-3/4 flex justify-center flex-col gap-2">
-          <h1 class="text-5xl max-lg:text-center sm:text-9xl font-anta">Hello, I'm Khalid</h1>
-          <h2 id="typedSubheading" class="text-6xl font-anta"></h2>
+        <h1 class="text-5xl max-lg:text-center sm:text-9xl font-anta">
+          Hello, I'm Khalid
+        </h1>
+        <h2 id="typedSubheading" class="text-6xl font-anta"></h2>
       </div>
     </div>
-    <div class="border border-theme-border bg-theme-accent/5 rounded-2xl p-2 flex flex-col gap-2">
+    <div
+      class="border border-theme-border bg-theme-accent/5 rounded-2xl p-2 flex flex-col gap-2"
+    >
       <h3 class="text-3xl font-anta">About Me</h3>
-      <p>Glad you found it! This website is my place to share who I am and what I'm doing on the internet! Whether its where I am right now in my career, my personal resume, or even my blog, you'll find it all here!</p>
+      <p>
+        Glad you found it! This website is my place to share who I am and what
+        I'm doing on the internet! Whether its where I am right now in my
+        career, my personal resume, or even my blog, you'll find it all here!
+      </p>
     </div>
   </div>
   <script src="https://unpkg.com/typed.js@3.0.0/dist/typed.umd.js"></script>
   <script>
-  const typed = new Typed("#typedSubheading", {
-    strings: ["I'm a Student", "I'm an Analyst", "I'm an Engineer"],
-    loop: true,
-    smartBackspace: true,
-    typeSpeed: 50,
-    backSpeed: 50,
-    showCursor: false,
-    loopCount: 3
-  })
+    const typed = new Typed("#typedSubheading", {
+      strings: ["I'm a Student", "I'm an Analyst", "I'm an Engineer"],
+      loop: true,
+      smartBackspace: true,
+      typeSpeed: 50,
+      backSpeed: 50,
+      showCursor: false,
+      loopCount: 3,
+    });
   </script>
 </StandardPageLayout>

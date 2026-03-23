@@ -1,18 +1,20 @@
 ---
-import StandardPageLayout from '../layouts/StandardPageLayout.astro'
-import { getCollection } from 'astro:content'
+import StandardPageLayout from "../layouts/StandardPageLayout.astro";
+import { getCollection } from "astro:content";
 
-const blogPosts = await getCollection("blog")
+const blogPosts = await getCollection("blog");
 ---
-<StandardPageLayout>    
+
+<StandardPageLayout>
   <h1>My Astro Learning Blog</h1>
-  
+
   <ul>
-    {blogPosts.map((post) => (
-      <li>
-      <a href={`/posts/${post.id}`}>{post.data.title}</a>
-    </li>
-    ))}
+    {
+      blogPosts.map((post) => (
+        <li>
+          <a href={`/posts/${post.id}`}>{post.data.title}</a>
+        </li>
+      ))
+    }
   </ul>
 </StandardPageLayout>
-

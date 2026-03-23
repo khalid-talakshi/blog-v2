@@ -1,6 +1,15 @@
-import { useCallback, useState } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea, type MouseHandlerDataParam } from 'recharts';
-import { RechartsDevtools } from '@recharts/devtools';
+import { useCallback, useState } from "react";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ReferenceArea,
+  type MouseHandlerDataParam,
+} from "recharts";
+import { RechartsDevtools } from "@recharts/devtools";
 
 type Impressions = { name: number; cost: number; impression: number };
 
@@ -42,14 +51,14 @@ type ZoomAndHighlightState = {
 };
 
 const initialState: ZoomAndHighlightState = {
-  left: 'dataMin',
-  right: 'dataMax',
+  left: "dataMin",
+  right: "dataMax",
   refAreaLeft: undefined,
   refAreaRight: undefined,
-  top: 'dataMax+1',
-  bottom: 'dataMin-1',
-  top2: 'dataMax+20',
-  bottom2: 'dataMin-20',
+  top: "dataMax+1",
+  bottom: "dataMin-1",
+  top2: "dataMax+20",
+  bottom2: "dataMin-20",
   animation: true,
 };
 
@@ -62,7 +71,7 @@ const getAxisYDomain = (
   if (from != null && to != null) {
     const refData = impressionsData.slice(Number(from) - 1, Number(to));
     let [bottom, top] = [refData[0][ref], refData[0][ref]];
-    refData.forEach(d => {
+    refData.forEach((d) => {
       if (d[ref] > top) top = d[ref];
       if (d[ref] < bottom) bottom = d[ref];
     });
@@ -73,7 +82,8 @@ const getAxisYDomain = (
 };
 
 const HighlightAndZoomLineChart = () => {
-  const [zoomGraph, setZoomGraph] = useState<ZoomAndHighlightState>(initialState);
+  const [zoomGraph, setZoomGraph] =
+    useState<ZoomAndHighlightState>(initialState);
 
   const zoom = useCallback(() => {
     setZoomGraph((prev: ZoomAndHighlightState): ZoomAndHighlightState => {
@@ -90,8 +100,18 @@ const HighlightAndZoomLineChart = () => {
       if (refAreaLeft && refAreaRight && refAreaLeft > refAreaRight)
         [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
-      const [bottom, top] = getAxisYDomain(refAreaLeft, refAreaRight, 'cost', 1);
-      const [bottom2, top2] = getAxisYDomain(refAreaLeft, refAreaRight, 'impression', 50);
+      const [bottom, top] = getAxisYDomain(
+        refAreaLeft,
+        refAreaRight,
+        "cost",
+        1,
+      );
+      const [bottom2, top2] = getAxisYDomain(
+        refAreaLeft,
+        refAreaRight,
+        "impression",
+        50,
+      );
 
       return {
         ...prev,
@@ -113,14 +133,19 @@ const HighlightAndZoomLineChart = () => {
 
   const onMouseDown = useCallback(
     (e: MouseHandlerDataParam) => {
-      setZoomGraph((prev: ZoomAndHighlightState): ZoomAndHighlightState => ({ ...prev, refAreaLeft: e.activeLabel }));
+      setZoomGraph(
+        (prev: ZoomAndHighlightState): ZoomAndHighlightState => ({
+          ...prev,
+          refAreaLeft: e.activeLabel,
+        }),
+      );
     },
     [setZoomGraph],
   );
 
   const onMouseMove = useCallback(
     (e: MouseHandlerDataParam) => {
-      setZoomGraph(prev => {
+      setZoomGraph((prev) => {
         if (prev.refAreaLeft) {
           return { ...prev, refAreaRight: e.activeLabel };
         }
@@ -130,16 +155,25 @@ const HighlightAndZoomLineChart = () => {
     [setZoomGraph],
   );
 
-  const { refAreaLeft, refAreaRight, left, right, top, bottom, top2, bottom2 } = zoomGraph;
+  const { refAreaLeft, refAreaRight, left, right, top, bottom, top2, bottom2 } =
+    zoomGraph;
 
   return (
-    <div className="highlight-bar-charts" style={{ userSelect: 'none', width: '100%' }}>
+    <div
+      className="highlight-bar-charts"
+      style={{ userSelect: "none", width: "100%" }}
+    >
       <button type="button" className="btn update" onClick={zoomOut}>
         Zoom Out
       </button>
 
       <LineChart
-        style={{ width: '100%', maxWidth: '700px', maxHeight: '70vh', aspectRatio: 1.618 }}
+        style={{
+          width: "100%",
+          maxWidth: "700px",
+          maxHeight: "70vh",
+          aspectRatio: 1.618,
+        }}
         responsive
         data={impressionsData}
         onMouseDown={onMouseDown}
@@ -147,7 +181,13 @@ const HighlightAndZoomLineChart = () => {
         onMouseUp={zoom}
       >
         <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border-3)" />
-        <XAxis allowDataOverflow dataKey="name" domain={[left, right]} type="number" stroke="var(--color-text-3)" />
+        <XAxis
+          allowDataOverflow
+          dataKey="name"
+          domain={[left, right]}
+          type="number"
+          stroke="var(--color-text-3)"
+        />
         <YAxis
           allowDataOverflow
           domain={[bottom, top]}
@@ -167,9 +207,12 @@ const HighlightAndZoomLineChart = () => {
         />
         <Tooltip
           cursor={{
-            stroke: 'var(--color-border-2)',
+            stroke: "var(--color-border-2)",
           }}
-          contentStyle={{ backgroundColor: 'var(--color-surface-base)', borderColor: 'var(--color-border-2)' }}
+          contentStyle={{
+            backgroundColor: "var(--color-surface-base)",
+            borderColor: "var(--color-border-2)",
+          }}
         />
         <Line
           yAxisId="1"
@@ -178,10 +221,10 @@ const HighlightAndZoomLineChart = () => {
           stroke="#8884d8"
           animationDuration={300}
           dot={{
-            fill: 'var(--color-surface-base)',
+            fill: "var(--color-surface-base)",
           }}
           activeDot={{
-            stroke: 'var(--color-surface-base)',
+            stroke: "var(--color-surface-base)",
           }}
         />
         <Line
@@ -191,10 +234,10 @@ const HighlightAndZoomLineChart = () => {
           stroke="#82ca9d"
           animationDuration={300}
           dot={{
-            fill: 'var(--color-surface-base)',
+            fill: "var(--color-surface-base)",
           }}
           activeDot={{
-            stroke: 'var(--color-surface-base)',
+            stroke: "var(--color-surface-base)",
           }}
         />
 

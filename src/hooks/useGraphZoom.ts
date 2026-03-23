@@ -1,6 +1,6 @@
-import {useState, useCallback} from 'react'
-import { type MouseHandlerDataParam } from 'recharts';
-import {type Trace} from '../types'
+import { useState, useCallback } from "react";
+import { type MouseHandlerDataParam } from "recharts";
+import { type Trace } from "../types";
 
 export type ZoomAndHighlightState = {
   left: string | number;
@@ -15,14 +15,14 @@ export type ZoomAndHighlightState = {
 };
 
 export const initialState: ZoomAndHighlightState = {
-  left: 'dataMin',
-  right: 'dataMax',
+  left: "dataMin",
+  right: "dataMax",
   refAreaLeft: undefined,
   refAreaRight: undefined,
-  top: 'dataMax+1',
-  bottom: 'dataMin-1',
-  top2: 'dataMax+20',
-  bottom2: 'dataMin-20',
+  top: "dataMax+1",
+  bottom: "dataMin-1",
+  top2: "dataMax+20",
+  bottom2: "dataMin-20",
   animation: true,
 };
 
@@ -32,24 +32,44 @@ const getAxisYDomain = (
   xref: string,
   yref: string,
   offset: number,
-  traces: Trace[]
+  traces: Trace[],
 ): (number | string)[] => {
   if (from != null && to != null) {
-    const firstIndex = traces.map((trace) => trace.data.findIndex(d => d[xref] === from)).filter((x) => x)
-    const lastIndex = traces.map((trace) => [...trace.data].reverse().findIndex(d => d[xref] === to)).filter((x) => x)
+    const firstIndex = traces
+      .map((trace) => trace.data.findIndex((d) => d[xref] === from))
+      .filter((x) => x);
+    const lastIndex = traces
+      .map((trace) =>
+        [...trace.data].reverse().findIndex((d) => d[xref] === to),
+      )
+      .filter((x) => x);
 
-    console.log(firstIndex, lastIndex)
+    console.log(firstIndex, lastIndex);
 
-    const top = Math.min(traces.map((trace) => Math.min(trace.data.slice(firstIndex, lastIndex).map(x => x[yref]))))
-    const bottom = Math.max(traces.map((trace) => Math.max(trace.data.slice(firstIndex, lastIndex).map(x => x[yref]))))
+    const top = Math.min(
+      traces.map((trace) =>
+        Math.min(trace.data.slice(firstIndex, lastIndex).map((x) => x[yref])),
+      ),
+    );
+    const bottom = Math.max(
+      traces.map((trace) =>
+        Math.max(trace.data.slice(firstIndex, lastIndex).map((x) => x[yref])),
+      ),
+    );
 
     return [(bottom | 0) - offset, (top | 0) + offset, from, to];
   }
-  return [initialState.bottom, initialState.top, initialState.left, initialState.right];
+  return [
+    initialState.bottom,
+    initialState.top,
+    initialState.left,
+    initialState.right,
+  ];
 };
 
 export const useGraphZoom = (traces: Trace[]) => {
-  const [zoomGraph, setZoomGraph] = useState<ZoomAndHighlightState>(initialState);
+  const [zoomGraph, setZoomGraph] =
+    useState<ZoomAndHighlightState>(initialState);
 
   const zoom = useCallback(() => {
     setZoomGraph((prev: ZoomAndHighlightState): ZoomAndHighlightState => {
@@ -67,12 +87,12 @@ export const useGraphZoom = (traces: Trace[]) => {
         [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
       const [bottom, top, left, right] = getAxisYDomain(
-        refAreaLeft, 
-        refAreaRight, 
-        'distance', 
-        'speed', 
-        1, 
-        traces
+        refAreaLeft,
+        refAreaRight,
+        "distance",
+        "speed",
+        1,
+        traces,
       );
 
       return {
@@ -93,14 +113,19 @@ export const useGraphZoom = (traces: Trace[]) => {
 
   const onMouseDown = useCallback(
     (e: MouseHandlerDataParam) => {
-      setZoomGraph((prev: ZoomAndHighlightState): ZoomAndHighlightState => ({ ...prev, refAreaLeft: e.activeLabel || 0 }));
+      setZoomGraph(
+        (prev: ZoomAndHighlightState): ZoomAndHighlightState => ({
+          ...prev,
+          refAreaLeft: e.activeLabel || 0,
+        }),
+      );
     },
     [setZoomGraph],
   );
 
   const onMouseMove = useCallback(
     (e: MouseHandlerDataParam) => {
-      setZoomGraph(prev => {
+      setZoomGraph((prev) => {
         if (prev.refAreaLeft) {
           return { ...prev, refAreaRight: e.activeLabel || undefined };
         }
@@ -115,7 +140,6 @@ export const useGraphZoom = (traces: Trace[]) => {
     zoom,
     zoomOut,
     onMouseDown,
-    onMouseMove
-  }
-
-}
+    onMouseMove,
+  };
+};
