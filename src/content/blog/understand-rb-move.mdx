@@ -7,6 +7,7 @@ date: 26-03-2025
 ---
 
 import LineGraph from "../../components/LineChart.tsx";
+import { ScatterGraph } from "../../components/ScatterChart.tsx";
 import { ver_data, tsu_data, law_data } from "../datasets/rb-swap-data.js";
 
 export const tsu_trace = {
@@ -55,6 +56,14 @@ export const law_brake_trace = {
   color: "#ff0000",
 };
 
+export const tsu_track_map = {
+  name: "TSU",
+  x: "x",
+  y: "y",
+  data: tsu_data,
+  color: "#fff",
+};
+
 After an abysmal performance in China, earning 0 points over 3 point offering sessions, its clear that Lawson needed to either get in gear or retire his position. Unfortunately for him, it seems Red Bull has made that decision for him, with plans to swap him out for Tsunoda at his home grand prix. With only 2 Red Bull races under his belt, and one of two full season rookies at a top team, is it too soon to pull the trigger on Lawson or is Red Bull doing their team right by picking up Tsunoda, a name that has been associated with Red Bull since starting his time in F1, yet only getting the drive now after 4 years with the sister team. Today we are gonna explore the reasons for the swap, understanding the foundation of the team at this point in their life, and look at the driver styles to see how this fairs.
 
 ## A Note Before We Start
@@ -82,8 +91,16 @@ Tsunoda’s graph is identical to Verstappen’s despite being in a different ca
 
 ### Braking
 
-<LineGraph client:load traces={[tsu_brake_trace, ver_brake_trace]} />
-<LineGraph client:load traces={[law_brake_trace, ver_brake_trace]} />
+<LineGraph
+  client:load
+  traces={[tsu_brake_trace, ver_brake_trace]}
+  offset={0.25}
+/>
+<LineGraph
+  client:load
+  traces={[law_brake_trace, ver_brake_trace]}
+  offset={0.25}
+/>
 
 With the braking, Lawson is clearly shown as a late breaker, with a significant
 emphasis on shorter, later brake windows. However, this further proves the point
@@ -94,7 +111,7 @@ shown on the right.
 
 ### Racemap
 
-[TODO INSERT GRAPHS]
+<ScatterGraph client:load traces={[tsu_track_map]} offset={1} />
 
 The above map shows Verstappen (Left) vs Lawson (Right) on their fast lap in qualifying (Red - Yellow - Blue = Slow - Med - Fast). While identical, there are a few areas where the slow speed regions are slightly more expanded than on Verstappens, such as turns 9-10. Verstappen is also quicker to ramp up to speed on the straights.
 

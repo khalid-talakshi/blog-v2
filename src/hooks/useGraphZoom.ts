@@ -67,7 +67,7 @@ const getAxisYDomain = (
   ];
 };
 
-export const useGraphZoom = (traces: Trace[], offset = 1) => {
+export const useGraphZoom = (traces: Trace[], offset: number) => {
   const [zoomGraph, setZoomGraph] =
     useState<ZoomAndHighlightState>(initialState);
   const firstTrace = traces[0]
@@ -114,6 +114,7 @@ export const useGraphZoom = (traces: Trace[], offset = 1) => {
 
   const onMouseDown = useCallback(
     (e: MouseHandlerDataParam) => {
+      console.log(e)
       setZoomGraph(
         (prev: ZoomAndHighlightState): ZoomAndHighlightState => ({
           ...prev,
@@ -126,6 +127,7 @@ export const useGraphZoom = (traces: Trace[], offset = 1) => {
 
   const onMouseMove = useCallback(
     (e: MouseHandlerDataParam) => {
+      console.log(e)
       setZoomGraph((prev) => {
         if (prev.refAreaLeft) {
           return { ...prev, refAreaRight: e.activeLabel || undefined };
