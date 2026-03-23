@@ -5,7 +5,23 @@ description: 'Why Lawson is leaving so early, and is Tsunoda the best replacemen
 published: true
 date: 26-03-2025
 ---
-import Chart from '../../components/Chart.jsx'
+import Chart from '../../components/Chart.tsx';
+import {ver_data, tsu_data} from '../datasets/rb-swap-data.js'
+
+export const tsu_trace = {
+  name: 'TSU',
+  x: 'distance',
+  y: 'speed',
+  data: tsu_data,
+  color: "#fff"
+}
+
+export const ver_trace = {
+  name: 'VER',
+  x: 'distance',
+  y: 'speed',
+  data: ver_data
+}
 
 After an abysmal performance in China, earning 0 points over 3 point offering sessions, its clear that Lawson needed to either get in gear or retire his position. Unfortunately for him, it seems Red Bull has made that decision for him, with plans to swap him out for Tsunoda at his home grand prix. With only 2 Red Bull races under his belt, and one of two full season rookies at a top team, is it too soon to pull the trigger on Lawson or is Red Bull doing their team right by picking up Tsunoda, a name that has been associated with Red Bull since starting his time in F1, yet only getting the drive now after 4 years with the sister team. Today we are gonna explore the reasons for the swap, understanding the foundation of the team at this point in their life, and look at the driver styles to see how this fairs.
 
@@ -25,7 +41,7 @@ At the end of 2024 everyone thought Tsunoda was a shoe in for the second Red Bul
 
 ### Speed
 
-<Chart client:idle />
+<Chart client:load traces={[tsu_trace, ver_trace]} />
 
 There are two key details that make themselves evident in these graphs. The first is the shift in the VER-LAW graph. For the majority of the lap, Verstappen’s speed line is shifted leftward, and since both follow similar trends, Verstappen is the faster driver in each segment. This is because he is able to be more aggressive speed wise coming into a turn and can stop harder at the beginning of each turn, giving him a faster dropoff. This comes with its own challenges, as some of his lowest speeds go lower than Lawson at those same points. Moreover, In the first and third peaks we see at closeup a slower speed for Verstappen, but longer at that top speed. This means that Verstappen can take that car into the corner slightly slower than Lawson but carry that speed longer through the corner, giving him a faster time out of that corner.
 
