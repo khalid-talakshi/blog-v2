@@ -67,9 +67,10 @@ const getAxisYDomain = (
   ];
 };
 
-export const useGraphZoom = (traces: Trace[]) => {
+export const useGraphZoom = (traces: Trace[], offset = 1) => {
   const [zoomGraph, setZoomGraph] =
     useState<ZoomAndHighlightState>(initialState);
+  const firstTrace = traces[0]
 
   const zoom = useCallback(() => {
     setZoomGraph((prev: ZoomAndHighlightState): ZoomAndHighlightState => {
@@ -89,9 +90,9 @@ export const useGraphZoom = (traces: Trace[]) => {
       const [bottom, top, left, right] = getAxisYDomain(
         refAreaLeft,
         refAreaRight,
-        "distance",
-        "speed",
-        1,
+        firstTrace.x,
+        firstTrace.y,
+        offset,
         traces,
       );
 

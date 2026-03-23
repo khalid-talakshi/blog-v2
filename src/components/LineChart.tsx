@@ -16,9 +16,10 @@ import { type Trace } from "../types";
 
 export interface Props {
   traces: Trace[];
+  offset?: number
 }
 
-export default function LineGraph({ traces }: Props) {
+export default function LineGraph({ traces, offset }: Props) {
   const {
     left,
     right,
@@ -30,7 +31,7 @@ export default function LineGraph({ traces }: Props) {
     refAreaRight,
     bottom,
     top,
-  } = useGraphZoom(traces);
+  } = useGraphZoom(traces, offset);
 
   const lines = traces?.map((trace) => (
     <Line
