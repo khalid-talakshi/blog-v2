@@ -11,7 +11,7 @@ import {
 import { RechartsDevtools } from "@recharts/devtools";
 import { CustomTooltip } from "./ChartTooltip";
 import { FaMagnifyingGlassMinus } from "react-icons/fa6";
-import { useGraphZoom } from "../hooks/useGraphZoom";
+import { useGraphZoom2D } from "../hooks/useGraphZoom2D.ts";
 import { type Trace } from "../types";
 
 export interface Props {
@@ -23,15 +23,16 @@ export function ScatterGraph({ traces, offset }: Props) {
   const {
     left,
     right,
-    zoomOut,
-    zoom,
-    onMouseDown,
-    onMouseMove,
-    refAreaLeft,
-    refAreaRight,
-    bottom,
     top,
-  } = useGraphZoom(traces, offset);
+    bottom,
+    areaLeft,
+    areaBottom,
+    areaTop,
+    areaRight,
+    onMouseUp,
+    onMouseDown,
+    onMouseMove
+  } = useGraphZoom2D("x1", "y1")
 
   const lines = traces?.map((trace) => (
     <Scatter
@@ -48,7 +49,6 @@ export function ScatterGraph({ traces, offset }: Props) {
     <div className="flex flex-col gap-2">
       <div className="flex gap-2 w-full rounded-xl text-sm px-2 py-1">
         <div
-          onClick={zoomOut}
           className="hover:cursor-pointer hover:text-gray-400 transition ease-in-out duration-75"
         >
           <FaMagnifyingGlassMinus />
@@ -58,7 +58,7 @@ export function ScatterGraph({ traces, offset }: Props) {
         style={{ width: "100%", aspectRatio: 1.618 }}
         responsive
         onMouseDown={onMouseDown}
-        onMouseUp={zoom}
+        onMouseUp={onMouseUp}
         onMouseMove={onMouseMove}
       >
         <CartesianGrid strokeDasharray="2 2" stroke="gray" />
@@ -70,14 +70,17 @@ export function ScatterGraph({ traces, offset }: Props) {
           tickCount={4}
           domain={[left, right]}
           allowDataOverflow
+          id="x1"
         />
-        <YAxis dataKey={firstTrace.y} domain={[bottom, top]} />
+        <YAxis dataKey={firstTrace.y} domain={[bottom, top]} id="y1" />
         <Legend />
         <Tooltip shared={true} content={<CustomTooltip />} />
-        {refAreaLeft && refAreaRight ? (
+        {areaLeft && areaRight && areaTop && areaBottom ? (
           <ReferenceArea
-            x1={refAreaLeft}
-            x2={refAreaRight}
+            x1={areaLeft}
+            x2={areaRight}
+            y1={areaTop}
+            y2={areaBottom}
             strokeOpacity={0.3}
             stroke="red"
           />

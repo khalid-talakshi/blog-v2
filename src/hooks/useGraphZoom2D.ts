@@ -14,6 +14,7 @@ interface ZoomState2d {
   areaRight?: string | number;
   areaTop?: string | number;
   areaBottom?: string | number;
+  start: boolean
 }
 
 const initialZoomState: ZoomState2d = {
@@ -25,16 +26,19 @@ const initialZoomState: ZoomState2d = {
   areaTop: undefined,
   areaBottom: undefined,
   areaRight: undefined,
+  start: false
 };
 
 export const useGraphZoom2D = (xAxisId: string, yAxisId: string) => {
   const [zoomState, setZoomState] = useState(initialZoomState);
-  const xScale = useXAxisInverseScale(xAxisId);
-  const yScale = useYAxisInverseScale(yAxisId);
+  const xScale = useXAxisInverseScale(0);
+  const yScale = useYAxisInverseScale(0);
 
   const onMouseDown = useCallback(
     (e: MouseHandlerDataParam) => {
+      console.log(e)
       if (e.activeCoordinate && xScale && yScale) {
+        console.log(e.activeCoordinate)
         const pointX = xScale(e.activeCoordinate.x) as number;
         const pointY = yScale(e.activeCoordinate.y) as number;
         setZoomState(
@@ -44,10 +48,49 @@ export const useGraphZoom2D = (xAxisId: string, yAxisId: string) => {
             areaRight: pointX,
             areaTop: pointY,
             areaBottom: pointY,
+            start: true
           }),
         );
+        console.log(zoomState)
       }
     },
     [setZoomState],
   );
+
+  const onMouseMove = useCallback((e: MouseHandlerDataParam) => {
+    if (e.activeCoordinate && xScale && yScale) {
+      const pointX = xScale(e.activeCoordinate.x) as number;
+      const pointY = yScale(e.activeCoordinate.y) as number;
+
+
+      setZoomState(
+        (prev: ZoomState2d): ZoomState2d => {
+          const newState = prev
+          newState.areaLeft = Math.min(pointX, Number(prev.areaLeft) || Number.MAX_SAFE_INTEGER)
+          newState.areaRight = Math.max(pointX, Number(prev.areaRight) || Number.MIN_SAFE_INTEGER)
+          newState.areaTop = Math.max(pointY, Number(prev.areaTop) || Number.MIN_SAFE_INTEGER)
+          newState.areaBottom = Math.min(pointY, Number(prev.areaBottom) || Number.MAX_SAFE_INTEGER)
+          return {
+            ...prev,
+            ...newState
+          }
+        },
+      );
+    }
+  }, [setZoomState])
+
+  const onMouseUp = useCallback(() => {
+    setZoomState((prev) => ({
+      ...prev,
+      start: false
+    }))
+  }, [setZoomState])
+
+  return {
+
+    ...zoomState,
+    onMouseUp,
+    onMouseDown,
+    onMouseMove
+  }
 };
