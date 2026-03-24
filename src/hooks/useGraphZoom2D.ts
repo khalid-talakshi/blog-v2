@@ -31,16 +31,14 @@ const initialZoomState: ZoomState2d = {
 
 export const useGraphZoom2D = (xAxisId: string, yAxisId: string) => {
   const [zoomState, setZoomState] = useState(initialZoomState);
-  const xScale = useXAxisInverseScale(0);
-  const yScale = useYAxisInverseScale(0);
 
   const onMouseDown = useCallback(
     (e: MouseHandlerDataParam) => {
       console.log(e)
-      if (e.activeCoordinate && xScale && yScale) {
+      if (e.activeCoordinate) {
         console.log(e.activeCoordinate)
-        const pointX = xScale(e.activeCoordinate.x) as number;
-        const pointY = yScale(e.activeCoordinate.y) as number;
+        const pointX = e.activeCoordinate.x
+        const pointY = e.activeCoordinate.y
         setZoomState(
           (prev: ZoomState2d): ZoomState2d => ({
             ...prev,
@@ -58,9 +56,9 @@ export const useGraphZoom2D = (xAxisId: string, yAxisId: string) => {
   );
 
   const onMouseMove = useCallback((e: MouseHandlerDataParam) => {
-    if (e.activeCoordinate && xScale && yScale) {
-      const pointX = xScale(e.activeCoordinate.x) as number;
-      const pointY = yScale(e.activeCoordinate.y) as number;
+    if (e.activeCoordinate) {
+      const pointX = e.activeCoordinate.x
+      const pointY = e.activeCoordinate.y
 
 
       setZoomState(
