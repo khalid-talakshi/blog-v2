@@ -86,30 +86,41 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
     const yMin = Math.min(...yValues);
     const yMax = Math.max(...yValues);
 
-    // Build chart option
+    // Build chart option with modern design
     const option: echarts.EChartsOption = {
       title: title
         ? {
             text: title,
             left: "center",
+            top: "8px",
             textStyle: {
-              color: "#008fec",
-              fontSize: 16,
-              fontWeight: "bold",
+              color: "#ffffff",
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "system-ui, -apple-system, sans-serif",
             },
           }
         : undefined,
       tooltip: {
         trigger: "axis",
-        backgroundColor: "rgba(0, 7, 27, 0.8)",
-        borderColor: "#2264e3",
+        backgroundColor: "rgba(15, 23, 42, 0.95)",
+        borderColor: "rgba(8, 143, 236, 0.3)",
+        borderWidth: 1,
         textStyle: {
-          color: "#ffffff",
+          color: "#e2e8f0",
+          fontSize: 12,
+          fontFamily: "system-ui, -apple-system, sans-serif",
         },
+        padding: [8, 12],
         axisPointer: {
           type: "cross",
           lineStyle: {
-            color: "#2264e3",
+            color: "rgba(8, 143, 236, 0.5)",
+            width: 1,
+            type: "dashed",
+          },
+          crossStyle: {
+            color: "rgba(8, 143, 236, 0.5)",
             width: 1,
           },
         },
@@ -117,53 +128,88 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
       legend: {
         data: traces.map((t) => t.name),
         textStyle: {
-          color: "#ffffff",
+          color: "#cbd5e1",
+          fontSize: 12,
+          fontFamily: "system-ui, -apple-system, sans-serif",
         },
-        bottom: 10,
+        bottom: 12,
+        itemGap: 16,
+        icon: "circle",
       },
       grid: {
-        left: "10%",
-        right: "10%",
-        top: title ? "15%" : "10%",
-        bottom: "15%",
-        containLabel: true,
+        left: "12%",
+        right: "12%",
+        top: title ? "18%" : "12%",
+        bottom: "18%",
+        containLabel: false,
+        backgroundColor: "rgba(15, 23, 42, 0.4)",
+        borderColor: "rgba(8, 143, 236, 0.1)",
+        borderWidth: 1,
       },
       xAxis: {
         type: "value",
         name: xAxisLabel,
+        nameTextStyle: {
+          color: "#94a3b8",
+          fontSize: 11,
+        },
         min: xMin,
         max: xMax,
         axisLine: {
+          show: true,
           lineStyle: {
-            color: "#2264e3",
+            color: "rgba(8, 143, 236, 0.2)",
+            width: 1,
           },
         },
         axisLabel: {
-          color: "#ffffff",
+          color: "#94a3b8",
+          fontSize: 11,
+          margin: 8,
         },
         splitLine: {
+          show: true,
           lineStyle: {
-            color: "#212f3f",
+            color: "rgba(8, 143, 236, 0.08)",
+            width: 1,
+            type: "dashed",
           },
+        },
+        axisTick: {
+          show: false,
         },
       },
       yAxis: {
         type: "value",
         name: yAxisLabel,
+        nameTextStyle: {
+          color: "#94a3b8",
+          fontSize: 11,
+        },
         min: yMin,
         max: yMax,
         axisLine: {
+          show: true,
           lineStyle: {
-            color: "#2264e3",
+            color: "rgba(8, 143, 236, 0.2)",
+            width: 1,
           },
         },
         axisLabel: {
-          color: "#ffffff",
+          color: "#94a3b8",
+          fontSize: 11,
+          margin: 8,
         },
         splitLine: {
+          show: true,
           lineStyle: {
-            color: "#212f3f",
+            color: "rgba(8, 143, 236, 0.08)",
+            width: 1,
+            type: "dashed",
           },
+        },
+        axisTick: {
+          show: false,
         },
       },
       dataZoom: enableZoom
@@ -184,16 +230,62 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
               start: 0,
               end: 100,
               textStyle: {
-                color: "#ffffff",
+                color: "#94a3b8",
               },
               handleStyle: {
                 color: "#008fec",
+                borderColor: "rgba(8, 143, 236, 0.3)",
               },
-              fillerColor: "rgba(0, 143, 236, 0.2)",
+              fillerColor: "rgba(8, 143, 236, 0.15)",
+              backgroundColor: "rgba(8, 143, 236, 0.05)",
+              borderColor: "rgba(8, 143, 236, 0.1)",
             },
           ]
         : undefined,
-      series,
+      series: traces.map((trace) => ({
+        name: trace.name,
+        type: "line",
+        data: trace.data.map((d) => [d[trace.x], d[trace.y]]),
+        stroke: trace.color,
+        itemStyle: {
+          color: trace.color,
+          borderWidth: 0,
+        },
+        lineStyle: {
+          color: trace.color,
+          width: 2.5,
+          cap: "round" as const,
+          join: "round" as const,
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: trace.color + "30",
+            },
+            {
+              offset: 1,
+              color: trace.color + "05",
+            },
+          ]),
+        },
+        smooth: 0.4,
+        animation: true,
+        animationDuration: 400,
+        animationEasing: "cubicOut" as const,
+        symbolSize: 0,
+        showSymbol: false,
+        hoverSymbolSize: 8,
+        emphasis: {
+          itemStyle: {
+            borderWidth: 2,
+            borderColor: trace.color,
+          },
+          lineStyle: {
+            width: 3,
+          },
+        },
+      })),
     };
 
     chart.setOption(option);
@@ -227,9 +319,12 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
       style={{
         width,
         height: typeof height === "number" ? `${height}px` : height,
-        backgroundColor: "#00071b",
-        borderRadius: "8px",
-        border: "1px solid #2264e3",
+        backgroundColor: "rgba(15, 23, 42, 0.6)",
+        borderRadius: "12px",
+        border: "1px solid rgba(8, 143, 236, 0.15)",
+        boxShadow:
+          "0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+        backdropFilter: "blur(10px)",
       }}
     />
   );

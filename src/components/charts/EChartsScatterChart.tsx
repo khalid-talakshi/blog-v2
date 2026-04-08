@@ -78,29 +78,35 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
     const xPadding = (xMax - xMin) * 0.1;
     const yPadding = (yMax - yMin) * 0.1;
 
-    // Build chart option
+    // Build chart option with modern design
     const option: EChartsOption = {
       title: title
         ? {
             text: title,
             left: "center",
+            top: "8px",
             textStyle: {
-              color: "#008fec",
-              fontSize: 16,
-              fontWeight: "bold",
+              color: "#ffffff",
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: "system-ui, -apple-system, sans-serif",
             },
           }
         : undefined,
       tooltip: {
         trigger: "item",
-        backgroundColor: "rgba(0, 7, 27, 0.8)",
-        borderColor: "#2264e3",
+        backgroundColor: "rgba(15, 23, 42, 0.95)",
+        borderColor: "rgba(8, 143, 236, 0.3)",
+        borderWidth: 1,
         textStyle: {
-          color: "#ffffff",
+          color: "#e2e8f0",
+          fontSize: 12,
+          fontFamily: "system-ui, -apple-system, sans-serif",
         },
+        padding: [8, 12],
         formatter: (params: any) => {
           if (params.componentSubType === "scatter") {
-            return `${params.name}<br/>X: ${params.value[0].toFixed(2)}<br/>Y: ${params.value[1].toFixed(2)}`;
+            return `<div style="font-weight: 500;">${params.name}</div><div style="margin-top: 4px;">X: ${params.value[0].toFixed(2)}</div><div>Y: ${params.value[1].toFixed(2)}</div>`;
           }
           return params.name;
         },
@@ -108,53 +114,88 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
       legend: {
         data: series.map((s) => s.name),
         textStyle: {
-          color: "#ffffff",
+          color: "#cbd5e1",
+          fontSize: 12,
+          fontFamily: "system-ui, -apple-system, sans-serif",
         },
-        bottom: 10,
+        bottom: 12,
+        itemGap: 16,
+        icon: "circle",
       },
       grid: {
-        left: "10%",
-        right: "10%",
-        top: title ? "15%" : "10%",
-        bottom: "15%",
-        containLabel: true,
+        left: "12%",
+        right: "12%",
+        top: title ? "18%" : "12%",
+        bottom: "18%",
+        containLabel: false,
+        backgroundColor: "rgba(15, 23, 42, 0.4)",
+        borderColor: "rgba(8, 143, 236, 0.1)",
+        borderWidth: 1,
       },
       xAxis: {
         type: "value",
         name: xAxisLabel,
+        nameTextStyle: {
+          color: "#94a3b8",
+          fontSize: 11,
+        },
         min: xMin - xPadding,
         max: xMax + xPadding,
         axisLine: {
+          show: true,
           lineStyle: {
-            color: "#2264e3",
+            color: "rgba(8, 143, 236, 0.2)",
+            width: 1,
           },
         },
         axisLabel: {
-          color: "#ffffff",
+          color: "#94a3b8",
+          fontSize: 11,
+          margin: 8,
         },
         splitLine: {
+          show: true,
           lineStyle: {
-            color: "#212f3f",
+            color: "rgba(8, 143, 236, 0.08)",
+            width: 1,
+            type: "dashed",
           },
+        },
+        axisTick: {
+          show: false,
         },
       },
       yAxis: {
         type: "value",
         name: yAxisLabel,
+        nameTextStyle: {
+          color: "#94a3b8",
+          fontSize: 11,
+        },
         min: yMin - yPadding,
         max: yMax + yPadding,
         axisLine: {
+          show: true,
           lineStyle: {
-            color: "#2264e3",
+            color: "rgba(8, 143, 236, 0.2)",
+            width: 1,
           },
         },
         axisLabel: {
-          color: "#ffffff",
+          color: "#94a3b8",
+          fontSize: 11,
+          margin: 8,
         },
         splitLine: {
+          show: true,
           lineStyle: {
-            color: "#212f3f",
+            color: "rgba(8, 143, 236, 0.08)",
+            width: 1,
+            type: "dashed",
           },
+        },
+        axisTick: {
+          show: false,
         },
       },
       dataZoom: [
@@ -175,15 +216,38 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
           start: 0,
           end: 100,
           textStyle: {
-            color: "#ffffff",
+            color: "#94a3b8",
           },
           handleStyle: {
             color: "#008fec",
+            borderColor: "rgba(8, 143, 236, 0.3)",
           },
-          fillerColor: "rgba(0, 143, 236, 0.2)",
+          fillerColor: "rgba(8, 143, 236, 0.15)",
+          backgroundColor: "rgba(8, 143, 236, 0.05)",
+          borderColor: "rgba(8, 143, 236, 0.1)",
         },
       ],
-      series: chartSeries as EChartsOption["series"],
+      series: series.map((s) => ({
+        name: s.name,
+        type: "scatter",
+        data: s.data,
+        itemStyle: {
+          color: s.color || "#008fec",
+          borderWidth: 0,
+          opacity: 0.8,
+        },
+        symbolSize,
+        animation: true,
+        animationDuration: 400,
+        animationEasing: "cubicOut" as const,
+        emphasis: {
+          itemStyle: {
+            borderWidth: 2,
+            borderColor: s.color || "#008fec",
+            opacity: 1,
+          },
+        },
+      })) as EChartsOption["series"],
     };
 
     chart.setOption(option);
@@ -216,9 +280,12 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
       style={{
         width,
         height: typeof height === "number" ? `${height}px` : height,
-        backgroundColor: "#00071b",
-        borderRadius: "8px",
-        border: "1px solid #2264e3",
+        backgroundColor: "rgba(15, 23, 42, 0.6)",
+        borderRadius: "12px",
+        border: "1px solid rgba(8, 143, 236, 0.15)",
+        boxShadow:
+          "0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+        backdropFilter: "blur(10px)",
       }}
     />
   );
