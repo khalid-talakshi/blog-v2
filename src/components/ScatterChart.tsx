@@ -1,38 +1,68 @@
+import { useRef } from "react";
 import {
-  CartesianGrid,
   XAxis,
   YAxis,
   Legend,
   Tooltip,
-  ReferenceArea,
+  ReferenceArea as RechartsReferenceArea,
   Scatter,
   ScatterChart,
 } from "recharts";
 import { RechartsDevtools } from "@recharts/devtools";
 import { CustomTooltip } from "./ChartTooltip";
-import { FaMagnifyingGlassMinus } from "react-icons/fa6";
-import { useGraphZoom2D } from "../hooks/useGraphZoom2D.ts";
+import { useGraphZoom2D } from "../hooks/useGraphZoom2D";
+import { ZoomControls } from "./ZoomControls";
 import { type Trace } from "../types";
 
 export interface Props {
   traces: Trace[];
-  offset: number;
+  offset?: number;
 }
 
-export function ScatterGraph({ traces, offset }: Props) {
+export function ScatterGraph({ traces }: Props): JSX.Element {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const firstTrace = traces[0];
+
+  // Calculate data domain from traces
+  const allData = traces.flatMap((t) => t.data);
+  const xValues = allData
+    .map((d) => Number(d[firstTrace.x]))
+    .filter((v) => !isNaN(v));
+  const yValues = allData
+    .map((d) => Number(d[firstTrace.y]))
+    .filter((v) => !isNaN(v));
+
+  const xMin = Math.min(...xValues);
+  const xMax = Math.max(...xValues);
+  const yMin = Math.min(...yValues);
+  const yMax = Math.max(...yValues);
+
   const {
     left,
     right,
     top,
     bottom,
     areaLeft,
-    areaBottom,
-    areaTop,
     areaRight,
-    onMouseUp,
+    areaTop,
+    areaBottom,
+    start,
     onMouseDown,
-    onMouseMove
-  } = useGraphZoom2D("x1", "y1")
+    onMouseMove,
+    onMouseUp,
+    zoomOut,
+  } = useGraphZoom2D({
+    axisLock: "both",
+    xKey: firstTrace.x,
+    yKey: firstTrace.y,
+    xDomain: [xMin, xMax],
+    yDomain: [yMin, yMax],
+    chartRef,
+  });
+
+  // For ScatterChart, we need to combine all data into one array
+  // and use different Scatter components for each trace
+  const combinedData = firstTrace.data;
 
   const lines = traces?.map((trace) => (
     <Scatter
@@ -44,49 +74,55 @@ export function ScatterGraph({ traces, offset }: Props) {
     />
   ));
 
-  const firstTrace = traces[0];
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2 w-full rounded-xl text-sm px-2 py-1">
-        <div
-          className="hover:cursor-pointer hover:text-gray-400 transition ease-in-out duration-75"
-        >
-          <FaMagnifyingGlassMinus />
-        </div>
-      </div>
-      <ScatterChart
-        style={{ width: "100%", aspectRatio: 1.618 }}
-        responsive
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
+      <ZoomControls onZoomOut={zoomOut} />
+      <div
+        ref={chartRef}
+        style={{
+          cursor: start ? "crosshair" : "default",
+        }}
       >
-        <CartesianGrid strokeDasharray="2 2" stroke="gray" />
-        {lines}
-        <XAxis
-          dataKey={firstTrace.x}
-          allowDecimals={false}
-          type="number"
-          tickCount={4}
-          domain={[left, right]}
-          allowDataOverflow
-          id="x1"
-        />
-        <YAxis dataKey={firstTrace.y} domain={[bottom, top]} id="y1" />
-        <Legend />
-        <Tooltip shared={true} content={<CustomTooltip />} />
-        {areaLeft && areaRight && areaTop && areaBottom ? (
-          <ReferenceArea
-            x1={areaLeft}
-            x2={areaRight}
-            y1={areaTop}
-            y2={areaBottom}
-            strokeOpacity={0.3}
-            stroke="red"
+        <ScatterChart
+          data={combinedData}
+          style={{ width: "100%", aspectRatio: 1.618 }}
+          responsive
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+        >
+          {lines}
+          <XAxis
+            dataKey={firstTrace.x}
+            allowDecimals={false}
+            domain={[left, right]}
+            type="number"
+            tickCount={4}
+            allowDataOverflow
+            id="x1"
           />
-        ) : null}
-        <RechartsDevtools />
-      </ScatterChart>
+          <YAxis dataKey={firstTrace.y} domain={[bottom, top]} id="y1" />
+          <Legend />
+          <Tooltip shared={true} content={<CustomTooltip />} />
+          {areaLeft !== undefined &&
+          areaRight !== undefined &&
+          areaTop !== undefined &&
+          areaBottom !== undefined ? (
+            <RechartsReferenceArea
+              x1={areaLeft}
+              x2={areaRight}
+              y1={areaBottom}
+              y2={areaTop}
+              yAxisId="y1"
+              strokeOpacity={0.3}
+              stroke="red"
+              fill="red"
+              fillOpacity={0.1}
+            />
+          ) : null}
+          <RechartsDevtools />
+        </ScatterChart>
+      </div>
     </div>
   );
 }

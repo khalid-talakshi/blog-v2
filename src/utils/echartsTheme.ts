@@ -727,9 +727,9 @@ export function getEChartsTheme(): EChartsThemeConfig {
 /**
  * Register the theme with ECharts
  */
-export function registerEChartsTheme(): void {
+export async function registerEChartsTheme(): Promise<void> {
   if (typeof window !== "undefined") {
-    const echarts = require("echarts");
+    const echarts = await import("echarts");
     const theme = getEChartsTheme();
     echarts.registerTheme("custom-theme", theme);
   }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
-import { getEChartsTheme } from "../../utils/echartsTheme";
 import type { Trace } from "../../types";
 
 export interface EChartsLineChartProps {

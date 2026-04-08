@@ -1,0 +1,49 @@
+---
+import { ScatterGraph } from '../components/ScatterChart';
+import LineGraph from '../components/LineChart';
+
+// Sample data for testing
+const scatterData = [
+  { x: 1, y: 2 },
+  { x: 2, y: 4 },
+  { x: 3, y: 6 },
+  { x: 4, y: 8 },
+  { x: 5, y: 10 },
+  { x: 6, y: 12 },
+  { x: 7, y: 14 },
+  { x: 8, y: 16 },
+];
+
+const scatterTraces = [
+  {
+    name: 'Test Data',
+    data: scatterData,
+    x: 'x',
+    y: 'y',
+    color: '#8884d8',
+  }
+];
+
+const lineTraces = [
+  {
+    name: 'Test Line',
+    data: scatterData,
+    x: 'x',
+    y: 'y',
+    color: '#82ca9d',
+  }
+];
+---
+
+<html>
+  <head>
+    <title>Zoom Test</title>
+  </head>
+  <body>
+    <h1>Scatter Chart Zoom Test</h1>
+    <ScatterGraph client:load traces={scatterTraces} />
+    
+    <h1>Line Chart Zoom Test</h1>
+    <LineGraph client:load traces={lineTraces} />
+  </body>
+</html>
