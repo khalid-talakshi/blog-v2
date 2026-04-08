@@ -6,8 +6,8 @@ published: true
 date: 26-03-2025
 ---
 
-import LineGraph from "../../components/LineChart.tsx";
-import { ScatterGraph } from "../../components/ScatterChart.tsx";
+import EChartsLineChart from "../../components/charts/EChartsLineChart.tsx";
+import EChartsScatterChart from "../../components/charts/EChartsScatterChart.tsx";
 import { ver_data, tsu_data, law_data } from "../datasets/rb-swap-data.js";
 
 export const tsu_trace = {
@@ -82,8 +82,20 @@ At the end of 2024 everyone thought Tsunoda was a shoe in for the second Red Bul
 
 ### Speed
 
-<LineGraph client:load traces={[tsu_trace, ver_trace]} />
-<LineGraph client:load traces={[law_trace, ver_trace]} />
+<EChartsLineChart
+  client:load
+  traces={[tsu_trace, ver_trace]}
+  title="Tsunoda vs Verstappen - Speed"
+  xAxisLabel="Distance"
+  yAxisLabel="Speed"
+/>
+<EChartsLineChart
+  client:load
+  traces={[law_trace, ver_trace]}
+  title="Lawson vs Verstappen - Speed"
+  xAxisLabel="Distance"
+  yAxisLabel="Speed"
+/>
 
 There are two key details that make themselves evident in these graphs. The first is the shift in the VER-LAW graph. For the majority of the lap, Verstappen’s speed line is shifted leftward, and since both follow similar trends, Verstappen is the faster driver in each segment. This is because he is able to be more aggressive speed wise coming into a turn and can stop harder at the beginning of each turn, giving him a faster dropoff. This comes with its own challenges, as some of his lowest speeds go lower than Lawson at those same points. Moreover, In the first and third peaks we see at closeup a slower speed for Verstappen, but longer at that top speed. This means that Verstappen can take that car into the corner slightly slower than Lawson but carry that speed longer through the corner, giving him a faster time out of that corner.
 
@@ -91,15 +103,19 @@ Tsunoda’s graph is identical to Verstappen’s despite being in a different ca
 
 ### Braking
 
-<LineGraph
+<EChartsLineChart
   client:load
   traces={[tsu_brake_trace, ver_brake_trace]}
-  offset={0.25}
+  title="Tsunoda vs Verstappen - Braking"
+  xAxisLabel="Distance"
+  yAxisLabel="Brake"
 />
-<LineGraph
+<EChartsLineChart
   client:load
   traces={[law_brake_trace, ver_brake_trace]}
-  offset={0.25}
+  title="Lawson vs Verstappen - Braking"
+  xAxisLabel="Distance"
+  yAxisLabel="Brake"
 />
 
 With the braking, Lawson is clearly shown as a late breaker, with a significant
@@ -111,7 +127,20 @@ shown on the right.
 
 ### Racemap
 
-<ScatterGraph client:load traces={[tsu_track_map]} offset={1} />
+<EChartsScatterChart
+  client:load
+  series={[
+    {
+      name: "Tsunoda Track Map",
+      data: tsu_track_map.data.map((d) => [d.x, d.y]),
+      color: tsu_track_map.color,
+    },
+  ]}
+  title="Tsunoda - Track Map (Chinese GP Qualifying)"
+  xAxisLabel="X Position"
+  yAxisLabel="Y Position"
+  symbolSize={6}
+/>
 
 The above map shows Verstappen (Left) vs Lawson (Right) on their fast lap in qualifying (Red - Yellow - Blue = Slow - Med - Fast). While identical, there are a few areas where the slow speed regions are slightly more expanded than on Verstappens, such as turns 9-10. Verstappen is also quicker to ramp up to speed on the straights.
 
