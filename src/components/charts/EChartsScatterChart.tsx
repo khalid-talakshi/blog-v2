@@ -51,13 +51,27 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
 
     const chart = chartRef.current;
 
+    // Professional color palette: Blues, Reds, Blacks, Whites
+    const defaultColors = [
+      "#0066cc", // Deep Blue
+      "#cc0000", // Deep Red
+      "#1a1a1a", // Black
+      "#ffffff", // White
+      "#0099ff", // Bright Blue
+      "#ff3333", // Bright Red
+      "#333333", // Dark Gray
+      "#e6e6e6", // Light Gray
+      "#003d99", // Navy Blue
+      "#990000", // Dark Red
+    ];
+
     // Prepare series configuration
-    const chartSeries = series.map((s) => ({
+    const chartSeries = series.map((s, index) => ({
       name: s.name,
       type: "scatter",
       data: s.data,
       itemStyle: {
-        color: s.color || "#008fec",
+        color: s.color || defaultColors[index % defaultColors.length],
       },
       symbolSize,
       animation: true,

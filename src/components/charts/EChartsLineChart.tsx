@@ -243,17 +243,18 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
           ]
         : undefined,
       series: traces.map((trace, index) => {
-        // Default color palette if trace.color is not provided
+        // Professional color palette: Blues, Reds, Blacks, Whites
         const defaultColors = [
-          "#008fec",
-          "#82ca9d",
-          "#fac858",
-          "#ee6666",
-          "#73c0de",
-          "#5470c6",
-          "#91419f",
-          "#ee7733",
-          "#0077bb",
+          "#0066cc", // Deep Blue
+          "#cc0000", // Deep Red
+          "#1a1a1a", // Black
+          "#ffffff", // White
+          "#0099ff", // Bright Blue
+          "#ff3333", // Bright Red
+          "#333333", // Dark Gray
+          "#e6e6e6", // Light Gray
+          "#003d99", // Navy Blue
+          "#990000", // Dark Red
         ];
         const color =
           trace.color || defaultColors[index % defaultColors.length];
