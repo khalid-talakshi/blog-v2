@@ -242,50 +242,60 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
             },
           ]
         : undefined,
-      series: traces.map((trace) => ({
-        name: trace.name,
-        type: "line",
-        data: trace.data.map((d) => [d[trace.x], d[trace.y]]),
-        stroke: trace.color,
-        itemStyle: {
-          color: trace.color,
-          borderWidth: 0,
-        },
-        lineStyle: {
-          color: trace.color,
-          width: 2.5,
-          cap: "round" as const,
-          join: "round" as const,
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: trace.color + "30",
-            },
-            {
-              offset: 1,
-              color: trace.color + "05",
-            },
-          ]),
-        },
-        smooth: 0.4,
-        animation: true,
-        animationDuration: 400,
-        animationEasing: "cubicOut" as const,
-        symbolSize: 0,
-        showSymbol: false,
-        hoverSymbolSize: 8,
-        emphasis: {
+      series: traces.map((trace) => {
+        // Convert hex color to rgba for gradient
+        const hexToRgba = (hex: string, alpha: number) => {
+          const r = parseInt(hex.slice(1, 3), 16);
+          const g = parseInt(hex.slice(3, 5), 16);
+          const b = parseInt(hex.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        };
+
+        return {
+          name: trace.name,
+          type: "line",
+          data: trace.data.map((d) => [d[trace.x], d[trace.y]]),
+          stroke: trace.color,
           itemStyle: {
-            borderWidth: 2,
-            borderColor: trace.color,
+            color: trace.color,
+            borderWidth: 0,
           },
           lineStyle: {
-            width: 3,
+            color: trace.color,
+            width: 2.5,
+            cap: "round" as const,
+            join: "round" as const,
           },
-        },
-      })),
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: hexToRgba(trace.color, 0.3),
+              },
+              {
+                offset: 1,
+                color: hexToRgba(trace.color, 0.05),
+              },
+            ]),
+          },
+          smooth: 0.4,
+          animation: true,
+          animationDuration: 400,
+          animationEasing: "cubicOut" as const,
+          symbolSize: 0,
+          showSymbol: false,
+          hoverSymbolSize: 8,
+          emphasis: {
+            itemStyle: {
+              borderWidth: 2,
+              borderColor: trace.color,
+            },
+            lineStyle: {
+              width: 3,
+            },
+          },
+        };
+      }),
     };
 
     chart.setOption(option);

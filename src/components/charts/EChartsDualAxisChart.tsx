@@ -286,50 +286,60 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           borderColor: "rgba(8, 143, 236, 0.1)",
         },
       ],
-      series: series.map((s) => ({
-        name: s.name,
-        type: "line",
-        data: data.map((d) => d[s.dataKey]),
-        yAxisId: s.yAxisId === "left" ? 0 : 1,
-        itemStyle: {
-          color: s.color,
-          borderWidth: 0,
-        },
-        lineStyle: {
-          color: s.color,
-          width: 2.5,
-          cap: "round" as const,
-          join: "round" as const,
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: s.color + "30",
-            },
-            {
-              offset: 1,
-              color: s.color + "05",
-            },
-          ]),
-        },
-        smooth: 0.4,
-        animation: true,
-        animationDuration: 400,
-        animationEasing: "cubicOut" as const,
-        symbolSize: 0,
-        showSymbol: false,
-        hoverSymbolSize: 8,
-        emphasis: {
+      series: series.map((s) => {
+        // Convert hex color to rgba for gradient
+        const hexToRgba = (hex: string, alpha: number) => {
+          const r = parseInt(hex.slice(1, 3), 16);
+          const g = parseInt(hex.slice(3, 5), 16);
+          const b = parseInt(hex.slice(5, 7), 16);
+          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        };
+
+        return {
+          name: s.name,
+          type: "line",
+          data: data.map((d) => d[s.dataKey]),
+          yAxisId: s.yAxisId === "left" ? 0 : 1,
           itemStyle: {
-            borderWidth: 2,
-            borderColor: s.color,
+            color: s.color,
+            borderWidth: 0,
           },
           lineStyle: {
-            width: 3,
+            color: s.color,
+            width: 2.5,
+            cap: "round" as const,
+            join: "round" as const,
           },
-        },
-      })) as EChartsOption["series"],
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: hexToRgba(s.color, 0.3),
+              },
+              {
+                offset: 1,
+                color: hexToRgba(s.color, 0.05),
+              },
+            ]),
+          },
+          smooth: 0.4,
+          animation: true,
+          animationDuration: 400,
+          animationEasing: "cubicOut" as const,
+          symbolSize: 0,
+          showSymbol: false,
+          hoverSymbolSize: 8,
+          emphasis: {
+            itemStyle: {
+              borderWidth: 2,
+              borderColor: s.color,
+            },
+            lineStyle: {
+              width: 3,
+            },
+          },
+        };
+      }) as EChartsOption["series"],
     };
 
     chart.setOption(option);
