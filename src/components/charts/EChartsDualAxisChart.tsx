@@ -286,13 +286,34 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           borderColor: "rgba(8, 143, 236, 0.1)",
         },
       ],
-      series: series.map((s) => {
+      series: series.map((s, index) => {
+        // Default color palette if s.color is not provided
+        const defaultColors = [
+          "#008fec",
+          "#82ca9d",
+          "#fac858",
+          "#ee6666",
+          "#73c0de",
+          "#5470c6",
+          "#91419f",
+          "#ee7733",
+          "#0077bb",
+        ];
+        const color = s.color || defaultColors[index % defaultColors.length];
+
         // Convert hex color to rgba for gradient
         const hexToRgba = (hex: string, alpha: number) => {
-          const r = parseInt(hex.slice(1, 3), 16);
-          const g = parseInt(hex.slice(3, 5), 16);
-          const b = parseInt(hex.slice(5, 7), 16);
-          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          if (!hex || !hex.startsWith("#")) {
+            return `rgba(0, 143, 236, ${alpha})`;
+          }
+          try {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          } catch {
+            return `rgba(0, 143, 236, ${alpha})`;
+          }
         };
 
         return {
@@ -301,11 +322,11 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           data: data.map((d) => d[s.dataKey]),
           yAxisId: s.yAxisId === "left" ? 0 : 1,
           itemStyle: {
-            color: s.color,
+            color: color,
             borderWidth: 0,
           },
           lineStyle: {
-            color: s.color,
+            color: color,
             width: 2.5,
             cap: "round" as const,
             join: "round" as const,
@@ -314,11 +335,11 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: hexToRgba(s.color, 0.3),
+                color: hexToRgba(color, 0.3),
               },
               {
                 offset: 1,
-                color: hexToRgba(s.color, 0.05),
+                color: hexToRgba(color, 0.05),
               },
             ]),
           },
@@ -332,7 +353,7 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           emphasis: {
             itemStyle: {
               borderWidth: 2,
-              borderColor: s.color,
+              borderColor: color,
             },
             lineStyle: {
               width: 3,

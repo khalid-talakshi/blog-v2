@@ -242,26 +242,48 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
             },
           ]
         : undefined,
-      series: traces.map((trace) => {
+      series: traces.map((trace, index) => {
+        // Default color palette if trace.color is not provided
+        const defaultColors = [
+          "#008fec",
+          "#82ca9d",
+          "#fac858",
+          "#ee6666",
+          "#73c0de",
+          "#5470c6",
+          "#91419f",
+          "#ee7733",
+          "#0077bb",
+        ];
+        const color =
+          trace.color || defaultColors[index % defaultColors.length];
+
         // Convert hex color to rgba for gradient
         const hexToRgba = (hex: string, alpha: number) => {
-          const r = parseInt(hex.slice(1, 3), 16);
-          const g = parseInt(hex.slice(3, 5), 16);
-          const b = parseInt(hex.slice(5, 7), 16);
-          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          if (!hex || !hex.startsWith("#")) {
+            return `rgba(0, 143, 236, ${alpha})`;
+          }
+          try {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+          } catch {
+            return `rgba(0, 143, 236, ${alpha})`;
+          }
         };
 
         return {
           name: trace.name,
           type: "line",
           data: trace.data.map((d) => [d[trace.x], d[trace.y]]),
-          stroke: trace.color,
+          stroke: color,
           itemStyle: {
-            color: trace.color,
+            color: color,
             borderWidth: 0,
           },
           lineStyle: {
-            color: trace.color,
+            color: color,
             width: 2.5,
             cap: "round" as const,
             join: "round" as const,
@@ -270,11 +292,11 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: hexToRgba(trace.color, 0.3),
+                color: hexToRgba(color, 0.3),
               },
               {
                 offset: 1,
-                color: hexToRgba(trace.color, 0.05),
+                color: hexToRgba(color, 0.05),
               },
             ]),
           },
@@ -288,7 +310,7 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
           emphasis: {
             itemStyle: {
               borderWidth: 2,
-              borderColor: trace.color,
+              borderColor: color,
             },
             lineStyle: {
               width: 3,
