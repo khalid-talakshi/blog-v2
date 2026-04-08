@@ -260,13 +260,27 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
 
         // Convert hex color to rgba for gradient
         const hexToRgba = (hex: string, alpha: number) => {
-          if (!hex || !hex.startsWith("#")) {
+          if (!hex || typeof hex !== "string" || !hex.startsWith("#")) {
             return `rgba(0, 143, 236, ${alpha})`;
           }
           try {
-            const r = parseInt(hex.slice(1, 3), 16);
-            const g = parseInt(hex.slice(3, 5), 16);
-            const b = parseInt(hex.slice(5, 7), 16);
+            // Handle both 3-digit (#fff) and 6-digit (#ffffff) hex colors
+            let hexColor = hex.slice(1);
+            if (hexColor.length === 3) {
+              hexColor = hexColor
+                .split("")
+                .map((char) => char + char)
+                .join("");
+            }
+            if (hexColor.length !== 6) {
+              return `rgba(0, 143, 236, ${alpha})`;
+            }
+            const r = parseInt(hexColor.slice(0, 2), 16);
+            const g = parseInt(hexColor.slice(2, 4), 16);
+            const b = parseInt(hexColor.slice(4, 6), 16);
+            if (isNaN(r) || isNaN(g) || isNaN(b)) {
+              return `rgba(0, 143, 236, ${alpha})`;
+            }
             return `rgba(${r}, ${g}, ${b}, ${alpha})`;
           } catch {
             return `rgba(0, 143, 236, ${alpha})`;
