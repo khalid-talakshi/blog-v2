@@ -64,7 +64,7 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
       name: s.name,
       type: "line",
       data: data.map((d) => d[s.dataKey]),
-      yAxisId: s.yAxisId === "left" ? 0 : 1,
+      yAxisIndex: s.yAxisId === "left" ? 0 : 1,
       itemStyle: {
         color: s.color,
       },
@@ -336,7 +336,7 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           name: s.name,
           type: "line",
           data: data.map((d) => d[s.dataKey]),
-          yAxisId: s.yAxisId === "left" ? 0 : 1,
+          yAxisIndex: s.yAxisId === "left" ? 0 : 1,
           itemStyle: {
             color: color,
             borderWidth: 0,
