@@ -233,12 +233,13 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
                 color: "#a0a0a0",
               },
               handleStyle: {
-                color: "#3b82f6",
-                borderColor: "rgba(59, 130, 246, 0.4)",
+                color: "#60a5fa",
+                borderColor: "#3b82f6",
+                borderWidth: 2,
               },
-              fillerColor: "rgba(59, 130, 246, 0.2)",
-              backgroundColor: "rgba(59, 130, 246, 0.08)",
-              borderColor: "rgba(59, 130, 246, 0.15)",
+              fillerColor: "rgba(59, 130, 246, 0.3)",
+              backgroundColor: "rgba(59, 130, 246, 0.1)",
+              borderColor: "rgba(59, 130, 246, 0.2)",
             },
           ]
         : undefined,
@@ -372,6 +373,7 @@ export const EChartsLineChart: React.FC<EChartsLineChartProps> = ({
         boxShadow:
           "0 4px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(59, 130, 246, 0.1)",
         backdropFilter: "blur(10px)",
+        marginBottom: "2rem",
       }}
     />
   );
