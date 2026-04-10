@@ -104,33 +104,33 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
             left: "center",
             top: "8px",
             textStyle: {
-              color: "#ffffff",
+              color: "#f5f5f5",
               fontSize: 14,
               fontWeight: 600,
-              fontFamily: "system-ui, -apple-system, sans-serif",
+              fontFamily: "'Cascadia Code', monospace",
             },
           }
         : undefined,
       tooltip: {
         trigger: "axis",
-        backgroundColor: "rgba(15, 23, 42, 0.95)",
-        borderColor: "rgba(8, 143, 236, 0.3)",
+        backgroundColor: "rgba(17, 17, 17, 0.95)",
+        borderColor: "rgba(59, 130, 246, 0.4)",
         borderWidth: 1,
         textStyle: {
-          color: "#e2e8f0",
+          color: "#f5f5f5",
           fontSize: 12,
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: "'Cascadia Code', monospace",
         },
         padding: [8, 12],
         axisPointer: {
           type: "cross",
           lineStyle: {
-            color: "rgba(8, 143, 236, 0.5)",
+            color: "rgba(59, 130, 246, 0.5)",
             width: 1,
             type: "dashed",
           },
           crossStyle: {
-            color: "rgba(8, 143, 236, 0.5)",
+            color: "rgba(59, 130, 246, 0.5)",
             width: 1,
           },
         },
@@ -138,9 +138,9 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
       legend: {
         data: series.map((s) => s.name),
         textStyle: {
-          color: "#cbd5e1",
+          color: "#f5f5f5",
           fontSize: 12,
-          fontFamily: "system-ui, -apple-system, sans-serif",
+          fontFamily: "'Cascadia Code', monospace",
         },
         bottom: 12,
         itemGap: 16,
@@ -152,34 +152,34 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
         top: title ? "18%" : "12%",
         bottom: "18%",
         containLabel: false,
-        backgroundColor: "rgba(15, 23, 42, 0.4)",
-        borderColor: "rgba(8, 143, 236, 0.1)",
+        backgroundColor: "rgba(31, 31, 31, 0.3)",
+        borderColor: "rgba(59, 130, 246, 0.15)",
         borderWidth: 1,
       },
       xAxis: {
         type: "category",
         name: xAxisLabel,
         nameTextStyle: {
-          color: "#94a3b8",
+          color: "#a0a0a0",
           fontSize: 11,
         },
         data: data.map((d) => d.name),
         axisLine: {
           show: true,
           lineStyle: {
-            color: "rgba(8, 143, 236, 0.2)",
+            color: "rgba(59, 130, 246, 0.2)",
             width: 1,
           },
         },
         axisLabel: {
-          color: "#94a3b8",
+          color: "#a0a0a0",
           fontSize: 11,
           margin: 8,
         },
         splitLine: {
           show: true,
           lineStyle: {
-            color: "rgba(8, 143, 236, 0.08)",
+            color: "rgba(59, 130, 246, 0.1)",
             width: 1,
             type: "dashed",
           },
@@ -193,7 +193,7 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           type: "value",
           name: leftYAxisLabel,
           nameTextStyle: {
-            color: "#94a3b8",
+            color: "#a0a0a0",
             fontSize: 11,
           },
           position: "left",
@@ -202,19 +202,19 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           axisLine: {
             show: true,
             lineStyle: {
-              color: "rgba(8, 143, 236, 0.2)",
+              color: "rgba(59, 130, 246, 0.2)",
               width: 1,
             },
           },
           axisLabel: {
-            color: "#94a3b8",
+            color: "#a0a0a0",
             fontSize: 11,
             margin: 8,
           },
           splitLine: {
             show: true,
             lineStyle: {
-              color: "rgba(8, 143, 236, 0.08)",
+              color: "rgba(59, 130, 246, 0.1)",
               width: 1,
               type: "dashed",
             },
@@ -227,7 +227,7 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           type: "value",
           name: rightYAxisLabel,
           nameTextStyle: {
-            color: "#94a3b8",
+            color: "#a0a0a0",
             fontSize: 11,
           },
           position: "right",
@@ -236,19 +236,19 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           axisLine: {
             show: true,
             lineStyle: {
-              color: "rgba(8, 143, 236, 0.2)",
+              color: "rgba(59, 130, 246, 0.2)",
               width: 1,
             },
           },
           axisLabel: {
-            color: "#94a3b8",
+            color: "#a0a0a0",
             fontSize: 11,
             margin: 8,
           },
           splitLine: {
             show: true,
             lineStyle: {
-              color: "rgba(8, 143, 236, 0.08)",
+              color: "rgba(59, 130, 246, 0.1)",
               width: 1,
               type: "dashed",
             },
@@ -275,15 +275,15 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
           start: 0,
           end: 100,
           textStyle: {
-            color: "#94a3b8",
+            color: "#a0a0a0",
           },
           handleStyle: {
-            color: "#008fec",
-            borderColor: "rgba(8, 143, 236, 0.3)",
+            color: "#3b82f6",
+            borderColor: "rgba(59, 130, 246, 0.4)",
           },
-          fillerColor: "rgba(8, 143, 236, 0.15)",
-          backgroundColor: "rgba(8, 143, 236, 0.05)",
-          borderColor: "rgba(8, 143, 236, 0.1)",
+          fillerColor: "rgba(59, 130, 246, 0.2)",
+          backgroundColor: "rgba(59, 130, 246, 0.08)",
+          borderColor: "rgba(59, 130, 246, 0.15)",
         },
       ],
       series: series.map((s, index) => {
@@ -408,11 +408,11 @@ export const EChartsDualAxisChart: React.FC<EChartsDualAxisChartProps> = ({
       style={{
         width,
         height: typeof height === "number" ? `${height}px` : height,
-        backgroundColor: "rgba(15, 23, 42, 0.6)",
+        backgroundColor: "#1f1f1f",
         borderRadius: "12px",
-        border: "1px solid rgba(8, 143, 236, 0.15)",
+        border: "1px solid rgba(59, 130, 246, 0.2)",
         boxShadow:
-          "0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+          "0 4px 6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(59, 130, 246, 0.1)",
         backdropFilter: "blur(10px)",
       }}
     />
