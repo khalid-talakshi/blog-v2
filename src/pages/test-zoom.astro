@@ -1,0 +1,65 @@
+---
+import EChartsScatterChart from "../components/charts/EChartsScatterChart";
+import EChartsLineChart from "../components/charts/EChartsLineChart";
+
+// Sample data for testing
+const scatterData = Array.from({ length: 8 }, (_, i) => ({
+  x: i + 1,
+  y: (i + 1) * 2,
+}));
+
+const scatterTraces = [
+  {
+    name: "Test Data",
+    data: scatterData,
+    x: "x",
+    y: "y",
+    color: "#8884d8",
+  },
+];
+
+const lineData = Array.from({ length: 8 }, (_, i) => ({
+  x: i + 1,
+  y: (i + 1) * 2,
+}));
+
+const lineTraces = [
+  {
+    name: "Test Line",
+    x: "x",
+    y: "y",
+    data: lineData,
+    color: "#82ca9d",
+  },
+];
+---
+
+<html>
+  <head>
+    <title>Zoom Test</title>
+  </head>
+  <body>
+    <h1>Scatter Chart Zoom Test</h1>
+    <EChartsScatterChart
+      client:load
+      traces={scatterTraces}
+      title="Scatter Chart"
+      xAxisLabel="X"
+      yAxisLabel="Y"
+      symbolSize={8}
+      height={400}
+    />
+
+    <h1>Line Chart Zoom Test</h1>
+    <EChartsLineChart
+      client:load
+      traces={lineTraces}
+      title="Line Chart"
+      xAxisLabel="X"
+      yAxisLabel="Y"
+      enableZoom={true}
+      enablePan={true}
+      height={400}
+    />
+  </body>
+</html>
