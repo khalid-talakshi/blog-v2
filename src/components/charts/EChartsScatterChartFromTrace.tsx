@@ -1,17 +1,20 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import type { EChartsOption } from "echarts";
-import { BLUE_WHITE_RED_SCALE, getColorForValue } from "../../utils/colorScale";
 import {
-  extractDataValues,
-  hasDataKey,
+  BLUE_WHITE_RED_SCALE,
+  getColorForValue,
+  type ColorScale,
+} from "../../utils/colorScale";
+import {
   isHexColor,
+  hasDataKey,
+  extractDataValues,
 } from "../../utils/colorDetection";
 import type { Trace } from "../../types";
 
-export interface EChartsScatterChartProps {
-  traces?: Trace[];
-  series?: Trace[];
+export interface EChartsScatterChartFromTraceProps {
+  traces: Trace[];
   title?: string;
   xAxisLabel?: string;
   yAxisLabel?: string;
@@ -21,19 +24,22 @@ export interface EChartsScatterChartProps {
 }
 
 /**
- * ECharts scatter chart with zoom and pan support
- * Great for visualizing correlations and distributions
+ * ECharts scatter chart that accepts Trace objects
+ * Intelligently handles color field:
+ * - If color is a hex string (e.g., "#ff0000"), uses that solid color
+ * - If color is a data key (e.g., "speed"), uses that field for color mapping
  *
  * Features:
  * - Mouse wheel zoom
  * - Pan support
- * - Customizable symbol size
- * - Full theme customization
+ * - Color mapping with blue-white-red default scale
+ * - Custom color scales
  * - Responsive design
  */
-export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
+export const EChartsScatterChartFromTrace: React.FC<
+  EChartsScatterChartFromTraceProps
+> = ({
   traces,
-  series,
   title,
   xAxisLabel,
   yAxisLabel,
@@ -43,10 +49,9 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
-  const inputTraces = traces ?? series ?? [];
 
   useEffect(() => {
-    if (!containerRef.current || !inputTraces.length) return;
+    if (!containerRef.current || !traces.length) return;
 
     // Initialize ECharts instance
     if (!chartRef.current) {
@@ -55,49 +60,63 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
 
     const chart = chartRef.current;
 
-    // Professional color palette: Blues, Reds, Blacks, Whites
+    // Default color palette
     const defaultColors = [
       "#0066cc", // Deep Blue
       "#cc0000", // Deep Red
       "#1a1a1a", // Black
-      "#ffffff", // White
       "#0099ff", // Bright Blue
       "#ff3333", // Bright Red
       "#333333", // Dark Gray
-      "#e6e6e6", // Light Gray
       "#003d99", // Navy Blue
       "#990000", // Dark Red
     ];
 
-    const normalizedTraces = inputTraces.map((trace) => {
+    // Process each trace
+    const chartSeries = traces.map((trace, traceIndex) => {
       const firstDataPoint = trace.data[0];
       if (!firstDataPoint) {
         return {
-          ...trace,
-          points: [] as number[][],
-          colorValues: undefined as number[] | undefined,
+          name: trace.name,
+          type: "scatter",
+          data: [],
+          symbolSize,
         };
       }
 
-      const points = trace.data.map((d, pointIndex) => {
-        const x = Number(d[trace.x]);
-        const y = Number(d[trace.y]);
-        if (Number.isNaN(x) || Number.isNaN(y)) {
-          throw new Error(
-            `Trace "${trace.name}": invalid numeric value at index ${pointIndex} for keys "${trace.x}" and "${trace.y}".`,
-          );
-        }
-        return [x, y];
-      });
+      // Extract x and y values
+      const xValues = trace.data.map((d) => Number(d[trace.x]));
+      const yValues = trace.data.map((d) => Number(d[trace.y]));
 
-      if (isHexColor(trace.color)) {
+      // Determine if color is a hex color or a data key
+      const isColorHex = isHexColor(trace.color);
+
+      if (isColorHex) {
+        // Use solid color
         return {
-          ...trace,
-          points,
-          colorValues: undefined as number[] | undefined,
+          name: trace.name,
+          type: "scatter",
+          data: trace.data.map((d) => [Number(d[trace.x]), Number(d[trace.y])]),
+          itemStyle: {
+            color: trace.color,
+            borderWidth: 0,
+            opacity: 0.8,
+          },
+          symbolSize,
+          animation: true,
+          animationDuration: 400,
+          animationEasing: "cubicOut" as const,
+          emphasis: {
+            itemStyle: {
+              borderWidth: 2,
+              borderColor: trace.color,
+              opacity: 1,
+            },
+          },
         };
       }
 
+      // Check if color is a valid data key
       if (!hasDataKey(trace.data, trace.color)) {
         throw new Error(
           `Trace "${trace.name}": color key "${trace.color}" not found in data. ` +
@@ -105,20 +124,49 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
         );
       }
 
+      // Use color mapping
       const colorValues = extractDataValues(trace.data, trace.color);
-      if (colorValues.length !== trace.data.length) {
-        throw new Error(
-          `Trace "${trace.name}": color key "${trace.color}" contains non-numeric values.`,
-        );
-      }
+      const minColor = Math.min(...colorValues);
+      const maxColor = Math.max(...colorValues);
+      const colorScale = trace.colorScale || BLUE_WHITE_RED_SCALE;
 
-      return { ...trace, points, colorValues };
+      return {
+        name: trace.name,
+        type: "scatter",
+        data: trace.data.map((d, pointIndex) => ({
+          value: [Number(d[trace.x]), Number(d[trace.y])],
+          itemStyle: {
+            color: getColorForValue(
+              colorValues[pointIndex],
+              minColor,
+              maxColor,
+              colorScale,
+            ),
+            borderWidth: 0,
+            opacity: 0.8,
+          },
+        })),
+        symbolSize,
+        animation: true,
+        animationDuration: 400,
+        animationEasing: "cubicOut" as const,
+        emphasis: {
+          itemStyle: {
+            borderWidth: 2,
+            opacity: 1,
+          },
+        },
+      };
     });
 
     // Calculate data domain
-    const allData = normalizedTraces.flatMap((s) => s.points);
-    const xValues = allData.map((d) => d[0]).filter((v) => !isNaN(v));
-    const yValues = allData.map((d) => d[1]).filter((v) => !isNaN(v));
+    const allData = traces.flatMap((t) => t.data);
+    const xValues = allData
+      .map((d) => Number(d[traces[0].x]))
+      .filter((v) => !isNaN(v));
+    const yValues = allData
+      .map((d) => Number(d[traces[0].y]))
+      .filter((v) => !isNaN(v));
 
     const xMin = Math.min(...xValues);
     const xMax = Math.max(...xValues);
@@ -129,7 +177,7 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
     const xPadding = (xMax - xMin) * 0.1;
     const yPadding = (yMax - yMin) * 0.1;
 
-    // Build chart option with modern design
+    // Build chart option
     const option: EChartsOption = {
       title: title
         ? {
@@ -157,24 +205,20 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
         padding: [8, 12],
         formatter: (params: any) => {
           if (params.componentSubType === "scatter") {
-            const value = Array.isArray(params.value)
-              ? params.value
-              : params.value?.value;
-            const x = Number(value?.[0]);
-            const y = Number(value?.[1]);
+            const trace = traces.find((t) => t.name === params.name);
+            if (!trace) return params.name;
 
-            let tooltip = `<div style="font-weight: 500;">${params.name}</div><div style="margin-top: 4px;">X: ${x.toFixed(2)}</div><div>Y: ${y.toFixed(2)}</div>`;
+            const dataIndex = params.dataIndex;
+            const dataPoint = trace.data[dataIndex];
+            if (!dataPoint) return params.name;
 
-            const colorValues =
-              normalizedTraces[params.seriesIndex]?.colorValues;
-            const colorValue =
-              colorValues && params.dataIndex >= 0
-                ? colorValues[params.dataIndex]
-                : undefined;
-            if (typeof colorValue === "number" && !Number.isNaN(colorValue)) {
-              const colorLabel =
-                normalizedTraces[params.seriesIndex]?.color || "Color";
-              tooltip += `<div>${colorLabel}: ${colorValue.toFixed(2)}</div>`;
+            let tooltip = `<div style="font-weight: 500;">${params.name}</div>`;
+            tooltip += `<div style="margin-top: 4px;">${trace.x}: ${params.value[0].toFixed(2)}</div>`;
+            tooltip += `<div>${trace.y}: ${params.value[1].toFixed(2)}</div>`;
+
+            // Add color value if using color mapping
+            if (!isHexColor(trace.color) && trace.color in dataPoint) {
+              tooltip += `<div>${trace.color}: ${dataPoint[trace.color].toFixed(2)}</div>`;
             }
 
             return tooltip;
@@ -183,7 +227,7 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
         },
       },
       legend: {
-        data: inputTraces.map((s) => s.name),
+        data: traces.map((t) => t.name),
         textStyle: {
           color: "#cbd5e1",
           fontSize: 12,
@@ -298,68 +342,7 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
           borderColor: "rgba(8, 143, 236, 0.1)",
         },
       ],
-      series: normalizedTraces.map((s, index) => {
-        const colorValues = s.colorValues;
-
-        // Check if this series has color mapping
-        if (colorValues && colorValues.length > 0) {
-          const colorScale = s.colorScale ?? BLUE_WHITE_RED_SCALE;
-          const minColor = Math.min(...colorValues);
-          const maxColor = Math.max(...colorValues);
-
-          return {
-            name: s.name,
-            type: "scatter",
-            data: s.points.map((point, pointIndex) => ({
-              value: point,
-              itemStyle: {
-                color: getColorForValue(
-                  colorValues[pointIndex],
-                  minColor,
-                  maxColor,
-                  colorScale,
-                ),
-                borderWidth: 0,
-                opacity: 0.8,
-              },
-            })),
-            symbolSize,
-            animation: true,
-            animationDuration: 400,
-            animationEasing: "cubicOut" as const,
-            emphasis: {
-              itemStyle: {
-                borderWidth: 2,
-                opacity: 1,
-              },
-            },
-          };
-        }
-
-        // Fallback to solid color
-        return {
-          name: s.name,
-          type: "scatter",
-          data: s.points,
-          itemStyle: {
-            color: s.color || defaultColors[index % defaultColors.length],
-            borderWidth: 0,
-            opacity: 0.8,
-          },
-          symbolSize,
-          animation: true,
-          animationDuration: 400,
-          animationEasing: "cubicOut" as const,
-          emphasis: {
-            itemStyle: {
-              borderWidth: 2,
-              borderColor:
-                s.color || defaultColors[index % defaultColors.length],
-              opacity: 1,
-            },
-          },
-        };
-      }) as EChartsOption["series"],
+      series: chartSeries as EChartsOption["series"],
     };
 
     chart.setOption(option);
@@ -374,7 +357,7 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [inputTraces, title, xAxisLabel, yAxisLabel, symbolSize]);
+  }, [traces, title, xAxisLabel, yAxisLabel, symbolSize]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -403,4 +386,4 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
   );
 };
 
-export default EChartsScatterChart;
+export default EChartsScatterChartFromTrace;
