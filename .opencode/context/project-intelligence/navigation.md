@@ -1,4 +1,4 @@
-<!-- Context: project-intelligence/nav | Priority: high | Version: 1.1 | Updated: 2026-04-07 -->
+<!-- Context: project-intelligence/nav | Priority: high | Version: 1.2 | Updated: 2026-04-26 -->
 
 # Project Intelligence
 
@@ -9,8 +9,9 @@
 ```
 .opencode/context/project-intelligence/
 ├── navigation.md              # This file - quick overview
-├── business-domain.md         # Business context and problem statement
+├── wizard-guide.md            # How to use /add-context wizard
 ├── technical-domain.md        # Stack, architecture, technical decisions
+├── business-domain.md         # Business context and problem statement
 ├── business-tech-bridge.md    # How business needs map to solutions
 ├── decisions-log.md           # Major decisions with rationale
 └── living-notes.md            # Active issues, debt, open questions
@@ -20,6 +21,7 @@
 
 | What You Need        | File                      | Description                       |
 | -------------------- | ------------------------- | --------------------------------- |
+| Update patterns      | `wizard-guide.md`         | How to use /add-context wizard    |
 | Understand the "why" | `business-domain.md`      | Problem, users, value proposition |
 | Understand the "how" | `technical-domain.md`     | Stack, architecture, integrations |
 | See the connection   | `business-tech-bridge.md` | Business → technical mapping      |

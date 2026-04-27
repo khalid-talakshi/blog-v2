@@ -8,12 +8,12 @@ const blogPosts = await getCollection("blog", ({ data }) => data.published);
 
 // Sort by date (newest first)
 const sortedPosts = blogPosts.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
 // Get unique tags
 const allTags = Array.from(
-  new Set(sortedPosts.flatMap((p) => p.data.tags || []))
+  new Set(sortedPosts.flatMap((p) => p.data.tags || [])),
 ).sort();
 ---
 
@@ -74,10 +74,10 @@ const allTags = Array.from(
 
   {/* Blog Posts Grid */}
   <section class="py-12 md:py-16">
-    {sortedPosts.length > 0 ? (
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {
-          sortedPosts.map((post) => (
+    {
+      sortedPosts.length > 0 ? (
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {sortedPosts.map((post) => (
             <article
               class="blog-card"
               data-tags={post.data.tags?.join(",")}
@@ -92,16 +92,16 @@ const allTags = Array.from(
                 readingTime="8 min read"
               />
             </article>
-          ))
-        }
-      </div>
-    ) : (
-      <div class="text-center py-12">
-        <p class="text-lg text-theme-text/60">
-          No blog posts yet. Check back soon!
-        </p>
-      </div>
-    )}
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-lg text-theme-text/60">
+            No blog posts yet. Check back soon!
+          </p>
+        </div>
+      )
+    }
   </section>
 
   {/* No Results Message */}
@@ -113,7 +113,9 @@ const allTags = Array.from(
 
   {/* CTA Section */}
   <section class="py-12 md:py-16 border-t border-theme-border/20">
-    <div class="rounded-2xl border border-theme-border/30 bg-gradient-to-r from-theme-accent/10 to-theme-accent/10 p-8 md:p-12 text-center">
+    <div
+      class="rounded-2xl border border-theme-border/30 bg-gradient-to-r from-theme-accent/10 to-theme-accent/10 p-8 md:p-12 text-center"
+    >
       <h2 class="text-3xl font-bold text-theme-foreground mb-4">
         Subscribe for Updates
       </h2>
@@ -143,7 +145,9 @@ const allTags = Array.from(
   // Combined search and filter functionality
   const filterBtns = document.querySelectorAll(".filter-btn");
   const blogCards = document.querySelectorAll(".blog-card");
-  const searchInput = document.getElementById("searchInput") as HTMLInputElement;
+  const searchInput = document.getElementById(
+    "searchInput",
+  ) as HTMLInputElement;
   const noResults = document.getElementById("noResults");
   const resultsCounter = document.getElementById("resultsCounter");
 
@@ -203,20 +207,20 @@ const allTags = Array.from(
           "to-theme-accent",
           "text-white",
           "shadow-lg",
-          "shadow-theme-primary/30"
+          "shadow-theme-primary/30",
         );
         b.classList.add(
           "border-2",
           "border-theme-accent",
           "text-theme-accent",
-          "hover:bg-theme-accent/10"
+          "hover:bg-theme-accent/10",
         );
       });
       btn.classList.remove(
         "border-2",
         "border-theme-accent",
         "text-theme-accent",
-        "hover:bg-theme-accent/10"
+        "hover:bg-theme-accent/10",
       );
       btn.classList.add(
         "bg-gradient-to-r",
@@ -224,7 +228,7 @@ const allTags = Array.from(
         "to-theme-accent",
         "text-white",
         "shadow-lg",
-        "shadow-theme-primary/30"
+        "shadow-theme-primary/30",
       );
 
       updateResults();

@@ -40,7 +40,9 @@ const {
   {/* Content */}
   <div class="p-6 md:p-8">
     {/* Title */}
-    <h3 class="mb-3 text-2xl md:text-3xl font-bold text-theme-accent group-hover:text-theme-primary transition-colors duration-200">
+    <h3
+      class="mb-3 text-2xl md:text-3xl font-bold text-theme-accent group-hover:text-theme-primary transition-colors duration-200"
+    >
       {title}
     </h3>
 
@@ -73,7 +75,7 @@ const {
         <div class="mb-6 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span class="inline-block px-2 py-1 rounded-lg bg-theme-accent/20 text-xs font-medium text-theme-accent">
-              #{tag}
+              {tag}
             </span>
           ))}
         </div>
@@ -96,8 +98,7 @@ const {
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M9 5l7 7-7 7"
-        />
+          d="M9 5l7 7-7 7"></path>
       </svg>
     </a>
   </div>

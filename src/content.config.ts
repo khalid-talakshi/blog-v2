@@ -43,8 +43,18 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     tags: z.array(z.string()),
+    type: z.enum(["app", "paper", "design", "tool", "other"]).optional(),
     image: z.string().optional(),
     link: z.string().optional(),
+    links: z
+      .array(
+        z.object({
+          type: z.enum(["github", "download", "web", "other"]),
+          href: z.string(),
+          label: z.string().optional(),
+        }),
+      )
+      .optional(),
     technologies: z.array(z.string()).optional(),
     featured: z.boolean().optional().default(false),
   }),

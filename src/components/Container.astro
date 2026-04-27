@@ -8,11 +8,7 @@ export interface Props {
   padding?: "none" | "sm" | "md" | "lg";
 }
 
-const {
-  class: className = "",
-  maxWidth = "lg",
-  padding = "md",
-} = Astro.props;
+const { class: className = "", maxWidth = "lg", padding = "md" } = Astro.props;
 
 // Map maxWidth to Tailwind classes
 const maxWidthMap = {

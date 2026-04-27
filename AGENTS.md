@@ -1,97 +1,123 @@
-Purpose
+## Purpose
 
-- This file instructs agentic coding tools how to build, lint, test, and follow repo style.
+This file instructs agentic coding tools how to build, lint, test, and follow repo style.
 
-Quick commands (run from repo root)
+## Quick commands (run from repo root)
 
 - Install deps: `yarn install` (or `npm install`)
-- Dev server: `yarn dev` -> runs `astro dev`
-- Build for production: `yarn build` -> runs `astro build`
-- Preview production build: `yarn preview` -> runs `astro preview`
+- Dev server: `yarn dev` → runs `astro dev` on `localhost:4321`
+- Build for production: `yarn build` → outputs to `./dist/`
+- Preview production build: `yarn preview`
 - Astro CLI: `yarn astro -- <args>` or `npx astro <args>`
+- Format check: `yarn format:check` → runs `prettier --check .`
+- Format fix: `yarn format` → runs `prettier --write .`
 
-Recommended scripts to add to package.json (this repo already includes them)
+## Project structure
 
-- `lint`: `eslint . --ext .ts,.tsx,.astro`
-- `format`: `prettier --write .`
-- `format:check`: `prettier --check .`
-- `test`: `vitest`
-- `test:watch`: `vitest --watch`
-- `test:run`: `vitest run`
-- `test:single`: `vitest run -- -t '<name or pattern>'`
+- **Pages & routes**: `src/pages/` (kebab-case `.astro` files)
+- **Components**: `src/components/` (PascalCase `.astro` or `.tsx`)
+- **Layouts**: `src/layouts/` (PascalCase `.astro`)
+- **Content collections**: `src/content/` with schemas in `src/content.config.ts`
+  - `blog/` — blog posts (`.md` or `.mdx`)
+  - `projects/` — project entries (`.md`)
+  - `experience/` — work history (`.md`)
+  - `education/` — education entries (`.md`)
+- **Utilities**: `src/utils/` (TypeScript helpers)
+- **Types**: `src/types/index.ts`
+- **Styles**: Tailwind + component-scoped CSS in `src/styles/`
 
-Running a single test
+## Tech stack
 
-- Vitest (single file): `npx vitest run path/to/file.test.ts`
-- Vitest (by test name): `npx vitest -t "renders button"`
-- Jest (if added): `npx jest path/to/file.test.ts -t "exact name"`
+- **Framework**: Astro 6 with React 19 integration
+- **Styling**: Tailwind CSS 4 + Tailwind Typography plugin
+- **Charts**: ECharts 6 (React components in `src/components/charts/`)
+- **Content**: Astro Content Collections with Zod schema validation
+- **Formatting**: Prettier with `prettier-plugin-astro`
+- **Node**: >=22.12.0 (enforced in `package.json`)
 
-Formatting & linting
+## TypeScript & code style
 
-- Prettier is configured (repo uses `prettier-plugin-astro`). Run `npx prettier --check .`.
-- Add ESLint with `eslint-plugin-astro`, `@typescript-eslint`, and `eslint-plugin-react`. Run `npx eslint . --ext .ts,.tsx,.astro`.
+- `tsconfig.json` extends `astro/tsconfigs/strict` — keep `strict` enabled
+- Explicit return types on exported functions and module-level helpers
+- Avoid `any`; prefer `unknown` for untrusted input and narrow quickly
+- Use `interface` for public exported object shapes; use `type` for unions/mapped types
+- Use `readonly` for arrays/tuples where possible and `as const` for literal tuples
 
-TypeScript & code style rules
-
-- tsconfig extends `astro/tsconfigs/strict` — keep `strict` enabled.
-- Prefer explicit return types on exported functions and module-level helpers.
-- Avoid `any`; prefer `unknown` for untrusted input and narrow quickly.
-- Use `interface` for public exported object shapes; use `type` for unions/mapped types.
-- Use `readonly` for arrays/tuples where possible and `as const` for literal tuples.
-
-Imports ordering
+## Import ordering
 
 1. Node / built-ins
-2. External packages (react, astro, tailwind, etc.)
+2. External packages (react, astro, tailwind, echarts, etc.)
 3. Absolute imports from `src/` (if configured)
 4. Relative imports (`../` then `./`)
 5. Styles & assets last
 
-Naming conventions
+## Naming conventions
 
-- Pages/routes: kebab-case (e.g. `src/pages/about.astro`).
-- Components & layouts: PascalCase matching component name (e.g. `Navigation.astro`).
-- Stylesheets: `src/styles/*.css` or `component-name.css`.
-- Identifiers: camelCase for vars/functions, UPPER_SNAKE for constants, PascalCase for types.
+- **Pages/routes**: kebab-case (e.g., `src/pages/about.astro`)
+- **Components & layouts**: PascalCase matching component name (e.g., `Navigation.astro`)
+- **Stylesheets**: `src/styles/<component>.css` or inline Tailwind
+- **Identifiers**: camelCase for vars/functions, UPPER_SNAKE for constants, PascalCase for types
 
-Astro & React specifics
+## Astro & React specifics
 
-- In `.astro` files put imports and TypeScript frontmatter at top inside frontmatter; type-check frontmatter when possible using `export interface` for Props.
-- Keep layout components in `src/layouts/` and use PascalCase.
-- React components used inside Astro: place under `src/components/` as `.tsx` and keep `jsx: react-jsx` in `tsconfig`.
+- In `.astro` files, put imports and TypeScript frontmatter at the top inside the frontmatter fence (`---`)
+- Type-check frontmatter using `export interface Props` for component props
+- React components (`.tsx`) used inside Astro: place under `src/components/` with `jsx: react-jsx` in `tsconfig`
+- Content collections: define schemas in `src/content.config.ts` using Zod; query with `getCollection()` in pages
 
-CSS & Tailwind
+## CSS & Tailwind
 
-- Tailwind is present. Prefer utility classes for layout and small styles.
-- For component-specific CSS use `src/styles/<component>.css` and import explicitly.
-- Use CSS variables for central theming values.
+- Prefer Tailwind utility classes for layout and small styles
+- For component-specific CSS, use `src/styles/<component>.css` and import explicitly
+- Use CSS variables for central theming values
+- Tailwind Typography plugin available for prose styling
 
-Error handling
+## Error handling
 
-- Do not swallow errors silently. Use try/catch at boundaries and rethrow with context: `throw new Error(`fetchPosts failed: ${err.message}`)`.
+- Do not swallow errors silently
+- Use try/catch at boundaries and rethrow with context: `throw new Error(\`fetchPosts failed: ${err.message}\`)`
 
-Accessibility
+## Accessibility
 
-- Add `alt` attributes to images, use semantic HTML, and ensure visible focus styles.
+- Add `alt` attributes to images
+- Use semantic HTML
+- Ensure visible focus styles
 
-Commits & PRs
+## Formatting & linting
 
-- Commit message style: short imperative subject (<=50 chars) and optional body.
-- PR: 1–3 bullet points describing changes, testing notes, and relevant issue links.
+- **Prettier**: `yarn format:check` to verify, `yarn format` to fix
+  - Configured with `prettier-plugin-astro` for `.astro` file support
+  - Config in `.prettierrc`
+- **ESLint**: Not currently installed
+  - If adding: install `eslint`, `eslint-plugin-astro`, `@typescript-eslint/eslint-plugin`, `@typescript-eslint/parser`
+  - Run: `npx eslint . --ext .ts,.tsx,.astro`
+- **Vitest**: Not currently installed
+  - If adding: install `vitest`, `@vitest/ui`, `@testing-library/react`
+  - Run: `npx vitest run` or `npx vitest --watch`
 
-Onboarding checklist for an agent
+## Commits & PRs
 
-1. Run `yarn install`.
-2. Run `yarn dev` — confirm site boots locally.
-3. Run `npx prettier --check .` and `npx eslint . --ext .ts,.tsx,.astro` (add ESLint if missing).
-4. Add Vitest and a sample test if you will use tests; run `npx vitest run`.
+- Commit message style: short imperative subject (≤50 chars) and optional body
+- PR: 1–3 bullet points describing changes, testing notes, and relevant issue links
 
-Cursor / Copilot rules
+## Onboarding checklist for an agent
 
-- No `.cursor/rules/` or `.github/copilot-instructions.md` were found. If added later, copy their contents here and follow them verbatim.
+1. Run `yarn install` to install dependencies
+2. Run `yarn dev` and confirm site boots locally at `localhost:4321`
+3. Run `yarn format:check` to verify formatting
+4. If making code changes, run `yarn build` to verify production build succeeds
+5. If adding tests: install Vitest and create test files in `src/components/__tests__/` or `src/utils/__tests__/`
 
-Next recommended changes (optional, suggested order)
+## Known quirks & gotchas
 
-1. Add ESLint config and `lint` script (done in this commit).
-2. Add Vitest and sample tests (added `vitest.config.ts`, `src/setupTests.ts`, and one sample test file in `src/components/__tests__/`).
-3. Add CI to run `prettier --check`, `eslint`, `build`, and `test` on PRs (added `.github/workflows/ci.yml`).
+- **Content collections**: Schemas in `content.config.ts` are strict; missing required fields will cause build errors
+- **ECharts**: Client-side rendering only; wrap in `client:load` or `client:visible` when used in Astro
+- **Tailwind 4**: Uses Vite plugin; ensure `@tailwindcss/vite` is in dependencies
+- **MDX support**: Blog posts can use `.mdx` for embedded React components; see `@astrojs/mdx` config
+- **Node version**: Requires >=22.12.0; older versions may cause build failures
+
+## Next recommended changes (optional)
+
+1. Add ESLint config and `lint` script to `package.json`
+2. Add Vitest and sample tests in `src/components/__tests__/`
+3. Add CI workflow (`.github/workflows/ci.yml`) to run `format:check`, `build`, and tests on PRs

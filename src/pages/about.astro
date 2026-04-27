@@ -99,7 +99,8 @@ const calculateDuration = (start: string, end: string): string => {
                     {formatDate(exp.data.startDate)} -{" "}
                     {formatDate(exp.data.endDate)}
                     <span class="ml-2 text-theme-primary">
-                      ({calculateDuration(exp.data.startDate, exp.data.endDate)})
+                      ({calculateDuration(exp.data.startDate, exp.data.endDate)}
+                      )
                     </span>
                   </div>
                 </div>
@@ -140,9 +141,7 @@ const calculateDuration = (start: string, end: string): string => {
                       {edu.data.degree}
                     </h3>
                     <p class="text-theme-text/70">{edu.data.school}</p>
-                    <p class="text-sm text-theme-text/60">
-                      {edu.data.field}
-                    </p>
+                    <p class="text-sm text-theme-text/60">{edu.data.field}</p>
                   </div>
                   <div class="text-sm text-theme-text/60 whitespace-nowrap">
                     {formatDate(edu.data.graduationDate)}
@@ -185,7 +184,9 @@ const calculateDuration = (start: string, end: string): string => {
 
   {/* CTA Section */}
   <section class="py-12 md:py-16 border-t border-theme-border/20">
-    <div class="rounded-2xl border border-theme-border/30 bg-gradient-to-r from-theme-primary/10 to-theme-accent/10 p-8 md:p-12 text-center">
+    <div
+      class="rounded-2xl border border-theme-border/30 bg-gradient-to-r from-theme-primary/10 to-theme-accent/10 p-8 md:p-12 text-center"
+    >
       <h2 class="text-3xl font-bold text-theme-primary mb-4">
         Let's Work Together
       </h2>
@@ -209,7 +210,7 @@ const calculateDuration = (start: string, end: string): string => {
             stroke-linejoin="round"
             stroke-width="2"
             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
+          ></path>
         </svg>
       </a>
     </div>

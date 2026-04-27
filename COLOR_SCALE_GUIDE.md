@@ -15,6 +15,7 @@ import { viridisScale } from "../../utils/colorScales";
 ### 2. Prepare Your Data
 
 You need two pieces of data:
+
 - **Series data**: The X,Y coordinates for the scatter plot
 - **Raw data**: The full dataset including the color scale values
 
@@ -28,9 +29,9 @@ const rawData = [
 
 const scatterSeries = [
   {
-    name: 'Temperature Map',
-    data: rawData.map(d => [d.x, d.y]),
-  }
+    name: "Temperature Map",
+    data: rawData.map((d) => [d.x, d.y]),
+  },
 ];
 ```
 
@@ -41,8 +42,8 @@ const scatterSeries = [
   series={scatterSeries}
   rawData={rawData}
   colorScale={{
-    dataKey: 'temperature',  // The property name in rawData to use for coloring
-    colorScale: viridisScale  // The color scale function
+    dataKey: "temperature", // The property name in rawData to use for coloring
+    colorScale: viridisScale, // The color scale function
   }}
   title="Temperature Distribution"
   xAxisLabel="X Position"
@@ -53,6 +54,7 @@ const scatterSeries = [
 ## Available Color Scales
 
 ### 1. Viridis Scale
+
 **Blue → Green → Yellow**
 
 Best for: General purpose, perceptually uniform, colorblind-friendly
@@ -67,6 +69,7 @@ colorScale={{
 ```
 
 ### 2. Cool to Warm Scale
+
 **Blue → Red**
 
 Best for: Temperature data, diverging values
@@ -81,6 +84,7 @@ colorScale={{
 ```
 
 ### 3. Plasma Scale
+
 **Purple → Orange**
 
 Best for: High contrast, visually striking
@@ -95,6 +99,7 @@ colorScale={{
 ```
 
 ### 4. Grayscale Scale
+
 **Dark → Light**
 
 Best for: Printing, professional documents
@@ -109,6 +114,7 @@ colorScale={{
 ```
 
 ### 5. Blue Accent Scale
+
 **Light Blue → Dark Blue**
 
 Best for: Matching the site theme
@@ -127,10 +133,11 @@ colorScale={{
 You can create your own color scale function with the signature:
 
 ```tsx
-(value: number, min: number, max: number) => string
+(value: number, min: number, max: number) => string;
 ```
 
 The function receives:
+
 - `value`: The data point value
 - `min`: The minimum value in the dataset
 - `max`: The maximum value in the dataset
@@ -143,11 +150,11 @@ And should return a hex color string (e.g., `#FF0000`).
 const redScale = (value: number, min: number, max: number): string => {
   const normalized = (value - min) / (max - min);
   const clamped = Math.max(0, Math.min(1, normalized));
-  
+
   // Map to red intensity (0-255)
   const intensity = Math.round(clamped * 255);
-  const hex = intensity.toString(16).padStart(2, '0');
-  
+  const hex = intensity.toString(16).padStart(2, "0");
+
   return `#${hex}0000`;
 };
 
@@ -155,10 +162,10 @@ const redScale = (value: number, min: number, max: number): string => {
   series={scatterSeries}
   rawData={rawData}
   colorScale={{
-    dataKey: 'intensity',
-    colorScale: redScale
+    dataKey: "intensity",
+    colorScale: redScale,
   }}
-/>
+/>;
 ```
 
 ## How It Works
@@ -194,55 +201,62 @@ const temperatureData = Array.from({ length: 100 }, () => ({
 }));
 
 <EChartsScatterChart
-  series={[{
-    name: 'Temperature',
-    data: temperatureData.map(d => [d.x, d.y])
-  }]}
+  series={[
+    {
+      name: "Temperature",
+      data: temperatureData.map((d) => [d.x, d.y]),
+    },
+  ]}
   rawData={temperatureData}
   colorScale={{
-    dataKey: 'temp',
-    colorScale: coolToWarmScale
+    dataKey: "temp",
+    colorScale: coolToWarmScale,
   }}
   title="Temperature Distribution"
-/>
+/>;
 ```
 
 ### Performance Metrics
 
 ```tsx
-const performanceData = metrics.map(m => ({
+const performanceData = metrics.map((m) => ({
   x: m.latency,
   y: m.throughput,
   cpuUsage: m.cpu,
 }));
 
 <EChartsScatterChart
-  series={[{
-    name: 'Performance',
-    data: performanceData.map(d => [d.x, d.y])
-  }]}
+  series={[
+    {
+      name: "Performance",
+      data: performanceData.map((d) => [d.x, d.y]),
+    },
+  ]}
   rawData={performanceData}
   colorScale={{
-    dataKey: 'cpuUsage',
-    colorScale: viridisScale
+    dataKey: "cpuUsage",
+    colorScale: viridisScale,
   }}
   title="Performance Analysis"
-/>
+/>;
 ```
 
 ## Troubleshooting
 
 ### Dots are all the same color
+
 - Check that `dataKey` matches a property in `rawData`
 - Verify `rawData` has the same length as your data points
 - Ensure values are numbers, not strings
 
 ### Colors don't match expected range
+
 - The color scale is normalized to 0-1 based on min/max
 - If all values are the same, the scale will show a single color
 - Use a custom scale if you need fixed min/max values
 
 ### Performance is slow
+
 - Reduce the number of data points
 - Use a simpler color scale function
 - Consider using grayscaleScale for better performance

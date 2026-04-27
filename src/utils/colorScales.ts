@@ -76,7 +76,11 @@ export function viridisScale(value: number, min: number, max: number): string {
  * Cool to warm color scale (blue -> red)
  * Maps normalized value (0-1) to a color
  */
-export function coolToWarmScale(value: number, min: number, max: number): string {
+export function coolToWarmScale(
+  value: number,
+  min: number,
+  max: number,
+): string {
   const normalized = (value - min) / (max - min);
   const clamped = Math.max(0, Math.min(1, normalized));
 
@@ -108,7 +112,11 @@ export function plasmaScale(value: number, min: number, max: number): string {
  * Grayscale color scale (dark -> light)
  * Maps normalized value (0-1) to a grayscale color
  */
-export function grayscaleScale(value: number, min: number, max: number): string {
+export function grayscaleScale(
+  value: number,
+  min: number,
+  max: number,
+): string {
   const normalized = (value - min) / (max - min);
   const clamped = Math.max(0, Math.min(1, normalized));
 
@@ -123,7 +131,11 @@ export function grayscaleScale(value: number, min: number, max: number): string 
  * Blue accent scale (light blue -> dark blue)
  * Maps normalized value (0-1) to shades of blue
  */
-export function blueAccentScale(value: number, min: number, max: number): string {
+export function blueAccentScale(
+  value: number,
+  min: number,
+  max: number,
+): string {
   const normalized = (value - min) / (max - min);
   const clamped = Math.max(0, Math.min(1, normalized));
 

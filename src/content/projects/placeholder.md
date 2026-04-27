@@ -1,6 +1,7 @@
 ---
 title: "Your Project Title"
 description: "Add a compelling description of your project. What problem does it solve? What technologies did you use?"
+type: "app"
 tags:
   - "tag1"
   - "tag2"
