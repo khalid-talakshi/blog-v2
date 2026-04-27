@@ -150,11 +150,6 @@ export interface Props {}
   @media (min-width: 1024px) {
     .toc-sidebar {
       display: block;
-      position: sticky;
-      top: 2rem;
-      height: fit-content;
-      max-height: calc(100vh - 6rem);
-      overflow-y: auto;
     }
   }
 
@@ -330,34 +325,6 @@ export interface Props {}
   .toc-empty {
     font-size: 0.875rem;
     color: color-mix(in oklab, var(--color-theme-text) 50%, transparent);
-  }
-
-  /* Scrollbar styling for TOC */
-  @media (min-width: 1024px) {
-    .toc-sidebar::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .toc-sidebar::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .toc-sidebar::-webkit-scrollbar-thumb {
-      background: color-mix(
-        in oklab,
-        var(--color-theme-accent) 30%,
-        transparent
-      );
-      border-radius: 3px;
-    }
-
-    .toc-sidebar::-webkit-scrollbar-thumb:hover {
-      background: color-mix(
-        in oklab,
-        var(--color-theme-accent) 50%,
-        transparent
-      );
-    }
   }
 
   /* Mobile: Collapsible TOC */
