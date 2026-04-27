@@ -192,18 +192,25 @@ export default function ProjectModal({
               </svg>
             </button>
 
-            <div className="flex items-center justify-between gap-4 mb-6 pr-10">
+            <div className="flex items-start gap-4 mb-6 pr-10">
+              {type && (
+                <div
+                  className="flex items-center justify-center h-12 w-12 rounded-lg bg-theme-primary/20 text-theme-primary flex-shrink-0 mt-1"
+                  title={getProjectTypeIcon(type).label}
+                >
+                  <svg
+                    className="h-7 w-7"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    {getProjectTypeIcon(type).icon.props.children}
+                  </svg>
+                </div>
+              )}
               <h2 className="text-3xl font-bold text-theme-accent flex-1">
                 {title}
               </h2>
-              {type && (
-                <div
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-theme-primary/20 text-theme-primary whitespace-nowrap"
-                  title={getProjectTypeIcon(type).label}
-                >
-                  {getProjectTypeIcon(type).icon}
-                </div>
-              )}
             </div>
 
             <p className="text-lg text-theme-text/80 mb-6 leading-relaxed whitespace-pre-wrap">
@@ -306,18 +313,25 @@ export default function ProjectModal({
             </svg>
           </button>
 
-          <div className="flex items-center justify-between gap-4 mb-4 pr-10">
+          <div className="flex items-start gap-3 mb-4 pr-10">
+            {type && (
+              <div
+                className="flex items-center justify-center h-10 w-10 rounded-lg bg-theme-primary/20 text-theme-primary flex-shrink-0 mt-0.5"
+                title={getProjectTypeIcon(type).label}
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  {getProjectTypeIcon(type).icon.props.children}
+                </svg>
+              </div>
+            )}
             <h2 className="text-2xl font-bold text-theme-accent flex-1">
               {title}
             </h2>
-            {type && (
-              <div
-                className="flex items-center gap-2 px-2 py-1 rounded-lg bg-theme-primary/20 text-theme-primary whitespace-nowrap"
-                title={getProjectTypeIcon(type).label}
-              >
-                {getProjectTypeIcon(type).icon}
-              </div>
-            )}
           </div>
 
           <p className="text-base text-theme-text/80 mb-6 leading-relaxed whitespace-pre-wrap">
