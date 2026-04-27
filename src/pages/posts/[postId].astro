@@ -75,15 +75,15 @@ const allPosts = await getCollection("blog");
     <Prose>
       <Content />
     </Prose>
+  </fragment>
+
+  <fragment slot="sidebar">
+    <TableOfContents />
     <RelatedPostsCompact
       currentPostId={entry.id}
       currentTags={entry.data.tags || []}
       allPosts={allPosts}
       limit={3}
     />
-  </fragment>
-
-  <fragment slot="sidebar">
-    <TableOfContents />
   </fragment>
 </BlogPostLayout>
