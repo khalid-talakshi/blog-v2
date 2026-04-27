@@ -273,6 +273,15 @@ export const EChartsScatterChart: React.FC<EChartsScatterChartProps> = ({
         {
           type: "inside",
           xAxisIndex: 0,
+          start: 0,
+          end: 100,
+          zoomOnMouseWheel: true,
+          moveOnMouseMove: true,
+          moveOnMouseWheel: false,
+          preventDefaultMouseMove: true,
+        },
+        {
+          type: "inside",
           yAxisIndex: 0,
           start: 0,
           end: 100,

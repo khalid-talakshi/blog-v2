@@ -72,6 +72,22 @@ export const tsu_track_map = {
   color: "speed",
 };
 
+export const law_track_map = {
+  name: "LAW",
+  x: "x",
+  y: "y",
+  data: law_data,
+  color: "speed",
+};
+
+export const ver_track_map = {
+  name: "VER",
+  x: "x",
+  y: "y",
+  data: ver_data,
+  color: "speed",
+};
+
 After an abysmal performance in China, earning 0 points over 3 point offering sessions, its clear that Lawson needed to either get in gear or retire his position. Unfortunately for him, it seems Red Bull has made that decision for him, with plans to swap him out for Tsunoda at his home grand prix. With only 2 Red Bull races under his belt, and one of two full season rookies at a top team, is it too soon to pull the trigger on Lawson or is Red Bull doing their team right by picking up Tsunoda, a name that has been associated with Red Bull since starting his time in F1, yet only getting the drive now after 4 years with the sister team. Today we are gonna explore the reasons for the swap, understanding the foundation of the team at this point in their life, and look at the driver styles to see how this fairs.
 
 ## A Note Before We Start
@@ -134,6 +150,23 @@ than as a continuous force. This identically matches Tsunoda’s driving style a
 shown on the right.
 
 ### Racemap
+
+<EChartsScatterChart
+  client:load
+  traces={[
+    {
+      name: "Verstappen Track Map",
+      data: ver_track_map.data,
+      x: ver_track_map.x,
+      y: ver_track_map.y,
+      color: ver_track_map.color,
+    },
+  ]}
+  title="Verstappen - Track Map (Chinese GP Qualifying)"
+  xAxisLabel="X Position"
+  yAxisLabel="Y Position"
+  symbolSize={6}
+/>
 
 <EChartsScatterChart
   client:load
