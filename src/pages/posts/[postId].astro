@@ -2,6 +2,13 @@
 import { getCollection, getEntry, render } from "astro:content";
 import Prose from "../../components/Prose.astro";
 import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
+import { getReadingTime } from "../../utils/readingTime";
+
+// Reading time configuration (words per minute)
+const READING_TIME_CONFIG = {
+  wordsPerMinute: 200,
+  minReadingTime: 1,
+};
 
 export async function getStaticPaths() {
   const blogPosts = await getCollection("blog");
@@ -18,6 +25,7 @@ const { postId } = Astro.params;
 
 const entry = await getEntry("blog", postId);
 const { Content } = await render(entry);
+const readingTime = getReadingTime(entry.body, READING_TIME_CONFIG);
 ---
 
 <BlogPostLayout>
@@ -52,7 +60,10 @@ const { Content } = await render(entry);
       class="flex flex-col md:flex-row md:justify-between gap-2 text-sm text-theme-text/60"
     >
       <p>{entry?.data.author}</p>
-      <p>{entry?.data.date}</p>
+      <div class="flex gap-4">
+        <p>{entry?.data.date}</p>
+        <p class="text-theme-accent">{readingTime}</p>
+      </div>
     </div>
   </div>
   <Prose>

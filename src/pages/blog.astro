@@ -1,13 +1,32 @@
 ---
 import StandardPageLayout from "../layouts/StandardPageLayout.astro";
 import FeaturedBlogCard from "../components/FeaturedBlogCard.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
+import { getReadingTime } from "../utils/readingTime";
+
+// Reading time configuration (words per minute)
+const READING_TIME_CONFIG = {
+  wordsPerMinute: 200,
+  minReadingTime: 1,
+};
 
 // Get all published blog posts
 const blogPosts = await getCollection("blog", ({ data }) => data.published);
 
+// Enrich posts with reading time
+const enrichedPosts = await Promise.all(
+  blogPosts.map(async (post) => {
+    const { body } = post;
+    const readingTime = getReadingTime(body, READING_TIME_CONFIG);
+    return {
+      ...post,
+      readingTime,
+    };
+  })
+);
+
 // Sort by date (newest first)
-const sortedPosts = blogPosts.sort(
+const sortedPosts = enrichedPosts.sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
 );
 
@@ -89,7 +108,7 @@ const allTags = Array.from(
                 description={post.data.description}
                 date={post.data.date}
                 href={`/posts/${post.id}`}
-                readingTime="8 min read"
+                readingTime={post.readingTime}
               />
             </article>
           ))}
