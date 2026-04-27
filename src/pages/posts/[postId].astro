@@ -3,7 +3,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import Prose from "../../components/Prose.astro";
 import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
-import RelatedPosts from "../../components/RelatedPosts.astro";
+import RelatedPostsCompact from "../../components/RelatedPostsCompact.astro";
 import { getReadingTime } from "../../utils/readingTime";
 
 // Reading time configuration (words per minute)
@@ -75,7 +75,7 @@ const allPosts = await getCollection("blog");
     <Prose>
       <Content />
     </Prose>
-    <RelatedPosts
+    <RelatedPostsCompact
       currentPostId={entry.id}
       currentTags={entry.data.tags || []}
       allPosts={allPosts}
