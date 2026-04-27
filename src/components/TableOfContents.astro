@@ -1,0 +1,253 @@
+---
+// TableOfContents component - Sticky sidebar with heading navigation
+// Displays h2 and h3 headings with smooth scroll navigation
+// NOTE: TOC is populated on the client side after content is rendered
+
+export interface Props {}
+---
+
+<nav class="toc-sidebar" aria-label="Table of contents">
+  <div class="toc-container">
+    <h3 class="toc-title">On this page</h3>
+    <ul class="toc-list" id="toc-list">
+      <li class="toc-item toc-loading">
+        <span class="toc-empty">Loading...</span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  import { extractTableOfContents } from "../utils/toc";
+
+  // Extract TOC from rendered content
+  const toc = extractTableOfContents();
+  const tocList = document.getElementById("toc-list");
+
+  if (tocList && toc.length > 0) {
+    // Clear loading state
+    tocList.innerHTML = "";
+
+    // Render TOC items
+    toc.forEach((entry) => {
+      const li = document.createElement("li");
+      li.className = "toc-item toc-level-2";
+
+      const link = document.createElement("a");
+      link.href = `#${entry.id}`;
+      link.className = "toc-link";
+      link.textContent = entry.title;
+
+      li.appendChild(link);
+      tocList.appendChild(li);
+
+      // Add sub-items if they exist
+      if (entry.children && entry.children.length > 0) {
+        const sublist = document.createElement("ul");
+        sublist.className = "toc-sublist";
+
+        entry.children.forEach((child) => {
+          const subli = document.createElement("li");
+          subli.className = "toc-item toc-level-3";
+
+          const sublink = document.createElement("a");
+          sublink.href = `#${child.id}`;
+          sublink.className = "toc-link";
+          sublink.textContent = child.title;
+
+          subli.appendChild(sublink);
+          sublist.appendChild(subli);
+        });
+
+        tocList.appendChild(sublist);
+      }
+    });
+  }
+
+  // Active heading tracking
+  function setupActiveTracking() {
+    const tocLinks = document.querySelectorAll(".toc-link");
+    const headings = Array.from(
+      document.querySelectorAll(".prose h2, .prose h3")
+    ) as HTMLElement[];
+
+    function updateActiveLink() {
+      let activeId = "";
+
+      // Find the heading closest to the top of the viewport
+      for (const heading of headings) {
+        const rect = heading.getBoundingClientRect();
+        if (rect.top <= 100) {
+          activeId = heading.id;
+        } else {
+          break;
+        }
+      }
+
+      // Update active link styling
+      tocLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${activeId}`) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    // Update on scroll
+    window.addEventListener("scroll", updateActiveLink);
+
+    // Update on page load
+    updateActiveLink();
+
+    // Smooth scroll handling
+    tocLinks.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const href = link.getAttribute("href");
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+            // Update active link immediately
+            updateActiveLink();
+          }
+        }
+      });
+    });
+  }
+
+  // Wait for DOM to be ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupActiveTracking);
+  } else {
+    setupActiveTracking();
+  }
+</script>
+
+<style>
+  .toc-sidebar {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .toc-sidebar {
+      display: block;
+    }
+  }
+
+  .toc-container {
+    position: sticky;
+    top: 2rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-theme-border);
+    border-opacity: 0.3;
+    background: linear-gradient(
+      to bottom right,
+      color-mix(in oklab, var(--color-theme-accent) 5%, transparent),
+      color-mix(in oklab, var(--color-theme-purple) 5%, transparent)
+    );
+    backdrop-filter: blur(4px);
+    padding: 1.5rem;
+  }
+
+  .toc-title {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-theme-accent);
+  }
+
+  .toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .toc-sublist {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-left: 1px solid var(--color-theme-border);
+    border-left-opacity: 0.2;
+    padding-left: 1rem;
+  }
+
+  .toc-item {
+    list-style: none;
+  }
+
+  .toc-link {
+    display: block;
+    font-size: 0.875rem;
+    color: color-mix(in oklab, var(--color-theme-text) 70%, transparent);
+    transition: all 0.2s;
+  }
+
+  .toc-link:hover {
+    color: var(--color-theme-accent);
+  }
+
+  .toc-link.active {
+    font-weight: 600;
+    color: var(--color-theme-accent);
+  }
+
+  .toc-empty {
+    font-size: 0.875rem;
+    color: color-mix(in oklab, var(--color-theme-text) 50%, transparent);
+  }
+
+  /* Mobile: Collapsible TOC */
+  @media (max-width: 1023px) {
+    .toc-sidebar {
+      display: block;
+    }
+
+    .toc-container {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-radius: 0;
+      border-bottom: 1px solid var(--color-theme-border);
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      border-bottom-opacity: 0.3;
+    }
+
+    .toc-title {
+      display: none;
+    }
+
+    .toc-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .toc-sublist {
+      display: none;
+    }
+
+    .toc-link {
+      display: inline-block;
+      border-radius: 9999px;
+      border: 1px solid var(--color-theme-border);
+      border-opacity: 0.3;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    .toc-link.active {
+      border-color: var(--color-theme-accent);
+      background-color: color-mix(
+        in oklab,
+        var(--color-theme-accent) 10%,
+        transparent
+      );
+    }
+  }
+</style>
