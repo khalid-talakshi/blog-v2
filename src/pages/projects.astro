@@ -4,7 +4,7 @@ import ProjectModal from "../components/ProjectModal";
 import { getCollection } from "astro:content";
 
 // Get all projects
-const projects = await getCollection("projects");
+const projects = (await getCollection("projects")).filter((x) => x.data.hidden != true);
 
 // Get unique tags, technologies, and types
 const allTags = Array.from(
@@ -262,40 +262,6 @@ const allTypes = Array.from(
         </div>
       )
     }
-  </section>
-
-  {/* CTA Section */}
-  <section class="py-12 md:py-16 border-t border-theme-border/20">
-    <div
-      class="rounded-2xl border border-theme-border/30 bg-gradient-to-r from-theme-primary/10 to-theme-accent/10 p-8 md:p-12 text-center"
-    >
-      <h2 class="text-3xl font-bold text-theme-primary mb-4">
-        Have a Project in Mind?
-      </h2>
-      <p class="text-lg text-theme-text/80 mb-8 max-w-2xl mx-auto">
-        I'm always interested in working on exciting projects. Let's collaborate
-        and build something amazing together!
-      </p>
-      <a
-        href="/about"
-        class="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-theme-primary to-theme-accent hover:shadow-lg hover:shadow-theme-primary/30 transition-all duration-300 hover:scale-105"
-      >
-        Get In Touch
-        <svg
-          class="h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          ></path>
-        </svg>
-      </a>
-    </div>
   </section>
 </StandardPageLayout>
 

@@ -1,19 +1,17 @@
 ---
-title: "Your Project Title"
-description: "Add a compelling description of your project. What problem does it solve? What technologies did you use?"
+title: "Pit Wall"
+description: "A data exploration app for F1 data, allowing us to view telemetry, race results, and key insights about races. This is an ongoing project and will continue to be developed as both more data and more features become needed."
 type: "app"
 tags:
-  - "tag1"
-  - "tag2"
-  - "tag3"
+  - "F1"
+  - "Data Analysis"
+  - "Web Development"
 image: "/images/project-placeholder.jpg"
-link: "https://your-project-link.com"
 technologies:
-  - "Technology 1"
-  - "Technology 2"
-  - "Technology 3"
+  - "Python"
+  - "Streamlit"
 featured: false
-hidden: true
+hidden: false
 ---
 
 This is a placeholder project entry. Replace this with your actual project information.
