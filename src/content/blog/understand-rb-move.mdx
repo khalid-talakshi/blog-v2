@@ -4,6 +4,7 @@ author: "Khalid Talakshi"
 description: "Why Lawson is leaving so early, and is Tsunoda the best replacement?"
 published: true
 date: 26-03-2025
+tags: ["analysis", "motorsports", "data"]
 ---
 
 import EChartsLineChart from "../../components/charts/EChartsLineChart.tsx";
@@ -71,6 +72,22 @@ export const tsu_track_map = {
   color: "speed",
 };
 
+export const law_track_map = {
+  name: "LAW",
+  x: "x",
+  y: "y",
+  data: law_data,
+  color: "speed",
+};
+
+export const ver_track_map = {
+  name: "VER",
+  x: "x",
+  y: "y",
+  data: ver_data,
+  color: "speed",
+};
+
 After an abysmal performance in China, earning 0 points over 3 point offering sessions, its clear that Lawson needed to either get in gear or retire his position. Unfortunately for him, it seems Red Bull has made that decision for him, with plans to swap him out for Tsunoda at his home grand prix. With only 2 Red Bull races under his belt, and one of two full season rookies at a top team, is it too soon to pull the trigger on Lawson or is Red Bull doing their team right by picking up Tsunoda, a name that has been associated with Red Bull since starting his time in F1, yet only getting the drive now after 4 years with the sister team. Today we are gonna explore the reasons for the swap, understanding the foundation of the team at this point in their life, and look at the driver styles to see how this fairs.
 
 ## A Note Before We Start
@@ -125,14 +142,49 @@ Tsunoda’s graph is identical to Verstappen’s despite being in a different ca
   yAxisLabel="Brake"
 />
 
-With the braking, Lawson is clearly shown as a late breaker, with a significant
-emphasis on shorter, later brake windows. However, this further proves the point
-that the style Lawson brings is just not suited towards the car. Verstappen
-prefers earlier braking, with more focus on using the brakes sporadically rather
-than as a continuous force. This identically matches Tsunoda’s driving style as
-shown on the right.
+With the braking, Lawson is clearly shown as a late breaker, with a significant emphasis on shorter, later brake windows. However, this further proves the point that the style Lawson brings is just not suited towards the car. Verstappen prefers earlier braking, with more focus on using the brakes sporadically rather than as a continuous force. This identically matches Tsunoda’s driving style as shown on the right.
 
 ### Racemap
+
+While looking at telemetry timeseries graphs is useful, it is also important to look at the track map to understand how different track elements effect approach and racing. For this we will look at speed around the circuit for each driver. To being lets look at Verstappen's.
+
+<EChartsScatterChart
+  client:load
+  traces={[
+    {
+      name: "Verstappen Track Map",
+      data: ver_track_map.data,
+      x: ver_track_map.x,
+      y: ver_track_map.y,
+      color: ver_track_map.color,
+    },
+  ]}
+  title="Verstappen - Track Map (Chinese GP Qualifying)"
+  xAxisLabel="X Position"
+  yAxisLabel="Y Position"
+  symbolSize={6}
+/>
+
+In this map we can really see Verstappen's aggressiveness and technique. He is often a late braker but carries more speed through the corners. Now lets look at Lawson's track map.
+
+<EChartsScatterChart
+  client:load
+  traces={[
+    {
+      name: "Lawson Track Map",
+      data: law_track_map.data,
+      x: law_track_map.x,
+      y: law_track_map.y,
+      color: law_track_map.color,
+    },
+  ]}
+  title="Lawson - Track Map (Chinese GP Qualifying)"
+  xAxisLabel="X Position"
+  yAxisLabel="Y Position"
+  symbolSize={6}
+/>
+
+While the track maps are nearly identical, there are a few areas where the slow speed regions are slightly more expanded than on Verstappens, such as turns 9-10. Verstappen is also quicker to ramp up to speed on the straights. This allows him to get further ahead of Lawson out of corners, an important part of driving the Red Bull car. Finally lets look at Tsunoda's track map.
 
 <EChartsScatterChart
   client:load
@@ -150,10 +202,6 @@ shown on the right.
   yAxisLabel="Y Position"
   symbolSize={6}
 />
-
-The above map shows Verstappen (Left) vs Lawson (Right) on their fast lap in qualifying (Red - Yellow - Blue = Slow - Med - Fast). While identical, there are a few areas where the slow speed regions are slightly more expanded than on Verstappens, such as turns 9-10. Verstappen is also quicker to ramp up to speed on the straights.
-
-[TODO INSERT GRAPHS]
 
 Looking at Tsunoda’s track map, he has similar expanded regions to Lawson (looking at turns 9-10), but given that he is in the (arguably) worse car this is to be expected. Turns 14 and 15 show similar speeds to Verstappen than Lawson’s, with Tsunoda’s acceleration being slightly better. Overall Verstappen and Tsunoda share a similar control quality that allows them to carry some speed out of the exits of corners.
 

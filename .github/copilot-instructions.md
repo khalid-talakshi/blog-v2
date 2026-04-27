@@ -12,6 +12,7 @@ yarn format:check     # prettier --check .
 ```
 
 **E2E tests (Playwright)** — requires the dev server to be running first:
+
 ```bash
 yarn dev &            # start dev server
 npx playwright test   # run all tests
@@ -39,10 +40,10 @@ The `Trace` interface (`src/types/index.ts`) is the standard data contract for c
 interface Trace {
   name: string;
   data: { [key: string]: any }[];
-  x: string;      // data key for x-axis
-  y: string;      // data key for y-axis
-  color: string;  // EITHER a hex color ("#ff0000") OR a data key for color mapping ("speed")
-  colorScale?: ColorScale;  // defaults to blue-white-red
+  x: string; // data key for x-axis
+  y: string; // data key for y-axis
+  color: string; // EITHER a hex color ("#ff0000") OR a data key for color mapping ("speed")
+  colorScale?: ColorScale; // defaults to blue-white-red
 }
 ```
 
@@ -53,11 +54,9 @@ interface Trace {
 CSS variables in `src/styles/global.css` `@theme` block are the source of truth for colors:
 
 ```css
---color-theme-accent: #008fec
---color-theme-background: #00071b
---color-theme-foreground: #2264e3
---color-theme-muted: #212f3f
---color-theme-border: #2264e3
+--color-theme-accent: #008fec --color-theme-background: #00071b
+  --color-theme-foreground: #2264e3 --color-theme-muted: #212f3f
+  --color-theme-border: #2264e3;
 ```
 
 Use these as Tailwind utilities (`bg-theme-background`, `border-theme-border`, etc.). The ECharts theme (`src/utils/echartsTheme.ts`) reads these same CSS variables at runtime via `getComputedStyle` — always update `global.css` first, not `echartsTheme.ts` directly.
