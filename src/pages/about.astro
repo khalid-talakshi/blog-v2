@@ -106,22 +106,25 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
       <h2 class="text-3xl font-bold text-theme-primary mb-6">Who I Am</h2>
       <div class="space-y-4 text-theme-text/80 leading-relaxed">
         <p>
-          I'm a full-stack developer with a passion for creating elegant
-          solutions to complex problems. With expertise in modern web
-          technologies, I build scalable applications that combine beautiful
-          design with robust functionality.
+          I’m a full-stack developer who likes thinking in systems. I love
+          building things end-to-end, especially when the problem is messy and
+          needs both good architecture and practical execution.
         </p>
+
         <p>
-          My journey in tech started with a curiosity about how things work. I
-          quickly fell in love with the process of turning ideas into reality
-          through code. Whether it's crafting interactive user experiences,
-          optimizing backend systems, or exploring new technologies, I'm always
-          eager to learn and grow.
+          A lot of my work and interests live at the intersection of sports,
+          analytics, and game design. I’m especially into baseball, F1, and
+          soccer, and I enjoy working on projects where data can actually
+          improve decisions and performance. I pick things up quickly, I’m happy
+          to jump into whatever needs to get done, and I like helping teams move
+          forward when things get complex.
         </p>
+
         <p>
-          When I'm not coding, you can find me exploring new technologies,
-          contributing to open-source projects, or sharing my knowledge with
-          others through writing and speaking.
+          Outside of work, I’m usually thinking about game design, playing
+          hockey, writing D&D campaigns, or posting about movies and sports. I’m
+          always open to new opportunities in sports where I can build useful
+          systems and work on meaningful problems.
         </p>
       </div>
     </div>
@@ -153,7 +156,12 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                     <div class="text-sm text-theme-text/60 whitespace-nowrap">
                       {formatDateRange(exp.data.startDate, exp.data.endDate)}
                       <span class="ml-2 text-theme-primary">
-                        ({calculateDuration(exp.data.startDate, exp.data.endDate)})
+                        (
+                        {calculateDuration(
+                          exp.data.startDate,
+                          exp.data.endDate,
+                        )}
+                        )
                       </span>
                     </div>
                   </div>
@@ -164,15 +172,16 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                     </Prose>
                   </div>
 
-                  {exp.data.technologies && exp.data.technologies.length > 0 && (
-                    <div class="flex flex-wrap gap-2">
-                      {exp.data.technologies.map((tech: string) => (
-                        <span class="inline-block px-3 py-1 rounded-full bg-theme-primary/20 text-xs font-medium text-theme-primary">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {exp.data.technologies &&
+                    exp.data.technologies.length > 0 && (
+                      <div class="flex flex-wrap gap-2">
+                        {exp.data.technologies.map((tech: string) => (
+                          <span class="inline-block px-3 py-1 rounded-full bg-theme-primary/20 text-xs font-medium text-theme-primary">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                 </div>
               </div>
             );
@@ -210,7 +219,9 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                               {edu.data.degree}
                             </h4>
                             <p class="text-theme-text/70">{edu.data.school}</p>
-                            <p class="text-sm text-theme-text/60">{edu.data.field}</p>
+                            <p class="text-sm text-theme-text/60">
+                              {edu.data.field}
+                            </p>
                           </div>
                           <div class="text-sm text-theme-text/60 whitespace-nowrap">
                             {edu.data.graduationDate
@@ -252,7 +263,9 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                         </span>
                       </div>
 
-                      <p class="text-theme-text/70 mb-2">{certificate.data.issuer}</p>
+                      <p class="text-theme-text/70 mb-2">
+                        {certificate.data.issuer}
+                      </p>
 
                       <Prose>
                         <CertificateContent />

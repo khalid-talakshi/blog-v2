@@ -176,6 +176,7 @@ const allTypes = Array.from(
           {projects.map((project) => (
             <ProjectModal
               client:load
+              projectId={project.id}
               title={project.data.title}
               description={project.data.description}
               type={project.data.type}

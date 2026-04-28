@@ -19,5 +19,21 @@ This advantage that we talk about is always in loose terms. We know that a drive
 
 Aside from the fact that I was doing this project as a part of my course, Bayesian Analysis offers a few benefits over traditional modelling and frequentist statistics. The number one benefit that anyone who is familiar with bayesian is that it allows us to quantify uncertainty in a way that is more understandable in a real world context. Rather than giving us an absolute value to use in our model, our output gives us a range of values as a probability distribution that we can then use to help us understand our error in our model fit.
 
-Bayesian is a great fit for analyzing problems in sports due to the fact that sports in their essence are not deterministic, and many factors can influence the outcome. In F1 specifically, a driver who may start in first may be more likely to come in first at the end of the race, but that doesn't prevent safety cars, engine failures, or even rain. 
+Bayesian is a great fit for analyzing problems in sports due to the fact that sports in their essence are not deterministic, and many factors can influence the outcome. In F1 specifically, a driver who may start in first may be more likely to come in first at the end of the race, but that doesn't prevent safety cars, engine failures, or even rain.
 In our problem of predicting race outcomes using grid probabilities, we want to not only figure out a probability for finishing in a specific position, but also in finishing in a range of positions. With the help of Bayesian methods, we can effectively simulate multiple races to help produce a best fit for probabilities of finishing in a specific position.
+
+## Getting the Data
+
+To first do a data analysis project, we need to get the data. Luckily for us, F1 data is not hard to get access to. There are a couple API's available online, but we are going to use [FastF1](https://docs.fastf1.dev/), a Python package for downloading F1 race and telemetry data. For our project, we will need the following data from each race
+
+- The Driver's Grid Position
+- The Driver's Classified Positions
+- The Year and Circuit
+
+To make this easy to work with, and for future proofing, we decided to use data from 2018-2025. This not only gives us data in two different eras for us to explore, but also gives us the ability to add telemetry data for exploration.
+
+## A Basic Model
+
+First lets determine at the most basic level what the grid position advantage is. In this model we are only going to use one explanatory variable, the grid position, to predict the final classified position. Since positions are discrete, we will use an ordered logistic regression model to predict the probability of finishing in a specific position. 
+
+An ordered logistic model is essentially a logistic model combined with a categorical distribution. In this method, we have a number of cutpoints which we use as fences to determine which position a person finishes in. We then use a logistic model to figure out the probability of a position being behind that fence. This allows the model to also make a prediction and improve itself over multiple iterations.
