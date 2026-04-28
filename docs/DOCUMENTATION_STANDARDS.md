@@ -5,6 +5,7 @@ This document defines the standards for all AI-generated documentation in this p
 ## 📋 Overview
 
 All documentation should be:
+
 - **Clear** - Easy to understand for developers of all levels
 - **Accurate** - Reflects current implementation
 - **Complete** - Covers all relevant aspects
@@ -37,12 +38,12 @@ Use UPPER_SNAKE_CASE for all documentation files:
 
 ### Category Selection
 
-| Content Type | Category | Example |
-|---|---|---|
-| How-to guide, tutorial, step-by-step | `guides/` | `READING_TIME_GUIDE.md` |
-| API reference, quick start, summary | `references/` | `ECHARTS_ONLY_REFERENCE.md` |
-| Migration guide, upgrade notes | `migrations/` | `NEXTJS_UPGRADE_GUIDE.md` |
-| Checklist, task list, process | `checklists/` | `MIGRATION_CHECKLIST.md` |
+| Content Type                         | Category      | Example                     |
+| ------------------------------------ | ------------- | --------------------------- |
+| How-to guide, tutorial, step-by-step | `guides/`     | `READING_TIME_GUIDE.md`     |
+| API reference, quick start, summary  | `references/` | `ECHARTS_ONLY_REFERENCE.md` |
+| Migration guide, upgrade notes       | `migrations/` | `NEXTJS_UPGRADE_GUIDE.md`   |
+| Checklist, task list, process        | `checklists/` | `MIGRATION_CHECKLIST.md`    |
 
 ## 📝 Document Structure
 
@@ -52,31 +53,40 @@ Use UPPER_SNAKE_CASE for all documentation files:
 # Document Title
 
 ## Overview
+
 [1-2 sentence description of what this document covers]
 
 ## Table of Contents
+
 (Include if document is longer than 2000 words)
+
 - [Section 1](#section-1)
 - [Section 2](#section-2)
 
 ## Main Content
 
 ### Section 1
+
 [Content here]
 
 ### Section 2
+
 [Content here]
 
 ## Examples
+
 [Code examples and usage]
 
 ## Troubleshooting
+
 [Common issues and solutions]
 
 ## Best Practices
+
 [Do's and don'ts]
 
 ## References
+
 [Links to related documentation]
 
 ---
@@ -95,7 +105,8 @@ Every document must end with:
 
 **Last Updated:** April 27, 2026
 **Category:** guides
-**Related Docs:** 
+**Related Docs:**
+
 - [Related Doc 1](path/to/doc.md)
 - [Related Doc 2](path/to/doc.md)
 ```
@@ -133,6 +144,7 @@ const x = 1;
 ```
 
 Supported languages:
+
 - `typescript` / `ts`
 - `javascript` / `js`
 - `python` / `py`
@@ -149,16 +161,19 @@ Use consistent formatting:
 
 ```markdown
 ✅ Unordered lists:
+
 - Item 1
 - Item 2
 - Item 3
 
 ✅ Ordered lists:
+
 1. First step
 2. Second step
 3. Third step
 
 ✅ Nested lists:
+
 - Parent item
   - Child item 1
   - Child item 2
@@ -170,16 +185,16 @@ Use markdown tables for comparisons:
 
 ```markdown
 | Column 1 | Column 2 | Column 3 |
-|---|---|---|
-| Value 1 | Value 2 | Value 3 |
-| Value 4 | Value 5 | Value 6 |
+| -------- | -------- | -------- |
+| Value 1  | Value 2  | Value 3  |
+| Value 4  | Value 5  | Value 6  |
 ```
 
 ### Emphasis
 
 ```markdown
 **Bold** for important terms
-*Italic* for emphasis
+_Italic_ for emphasis
 `Code` for inline code
 ~~Strikethrough~~ for deprecated items
 ```
@@ -217,12 +232,14 @@ Always include practical examples:
 ## Examples
 
 ### Example 1: Basic Usage
+
 [Description]
 \`\`\`typescript
 // Code here
 \`\`\`
 
 ### Example 2: Advanced Usage
+
 [Description]
 \`\`\`typescript
 // Code here
@@ -237,10 +254,12 @@ Format as Q&A:
 ## Troubleshooting
 
 ### Issue: Reading time shows "1 min" for long posts
+
 **Cause:** Content might be mostly code blocks
 **Solution:** Check extraction using `extractWrittenContent()`
 
 ### Issue: Build fails
+
 **Cause:** Undefined content
 **Solution:** Ensure all posts have content
 ```
@@ -253,11 +272,13 @@ Use checkmarks and X marks:
 ## Best Practices
 
 ✅ **Do:**
+
 - Keep docs up-to-date
 - Include examples
 - Link to related docs
 
 ❌ **Don't:**
+
 - Leave outdated information
 - Skip examples
 - Forget to update index
@@ -288,6 +309,7 @@ For documents over 2000 words, include TOC:
 
 ```markdown
 ## Table of Contents
+
 - [Section 1](#section-1)
 - [Section 2](#section-2)
   - [Subsection 2.1](#subsection-21)
@@ -297,11 +319,11 @@ For documents over 2000 words, include TOC:
 ## 📐 Length Guidelines
 
 | Document Type | Recommended Length | Max Length |
-|---|---|---|
-| Quick Start | 500-1000 words | 1500 words |
-| Guide | 1000-3000 words | 5000 words |
-| Reference | 500-2000 words | 3000 words |
-| Checklist | 200-500 words | 1000 words |
+| ------------- | ------------------ | ---------- |
+| Quick Start   | 500-1000 words     | 1500 words |
+| Guide         | 1000-3000 words    | 5000 words |
+| Reference     | 500-2000 words     | 3000 words |
+| Checklist     | 200-500 words      | 1000 words |
 
 ## ✅ Quality Checklist
 
@@ -326,13 +348,13 @@ Before finalizing documentation:
 
 Documentation should be reviewed:
 
-| Frequency | Action |
-|---|---|
-| When code changes | Update affected docs |
+| Frequency           | Action                 |
+| ------------------- | ---------------------- |
+| When code changes   | Update affected docs   |
 | When bugs are fixed | Update troubleshooting |
-| When features added | Add new docs |
-| Monthly | Review for accuracy |
-| Quarterly | Full review and update |
+| When features added | Add new docs           |
+| Monthly             | Review for accuracy    |
+| Quarterly           | Full review and update |
 
 ## 📝 Update Process
 
@@ -357,6 +379,7 @@ Files changed:
 ```
 
 Example:
+
 ```
 docs: update READING_TIME_GUIDE with new examples
 
@@ -401,7 +424,7 @@ general content)."
 ✅ Good: "You can configure the reading time:
 \`\`\`typescript
 const readingTime = getReadingTime(content, {
-  wordsPerMinute: 250
+wordsPerMinute: 250
 });
 \`\`\`"
 ```
@@ -409,6 +432,7 @@ const readingTime = getReadingTime(content, {
 ## 🚀 Best Practices
 
 ✅ **Do:**
+
 - Write for your audience
 - Use consistent terminology
 - Include practical examples
@@ -419,6 +443,7 @@ const readingTime = getReadingTime(content, {
 - Use clear headings
 
 ❌ **Don't:**
+
 - Use jargon without explanation
 - Mix multiple topics
 - Leave outdated information
@@ -431,6 +456,7 @@ const readingTime = getReadingTime(content, {
 ## 📞 Questions?
 
 If you have questions about documentation standards:
+
 1. Check this guide
 2. Review existing documentation
 3. Follow the template provided
@@ -441,4 +467,5 @@ If you have questions about documentation standards:
 **Last Updated:** April 27, 2026
 **Category:** references
 **Related Docs:**
+
 - [Documentation Index](README.md)

@@ -17,7 +17,7 @@ const { hasSidebar = false } = Astro.props;
     <div
       class={`w-full sm:w-[95%] mx-auto px-4 sm:px-0 ${
         hasSidebar
-          ? "lg:w-[90%] grid grid-cols-1 lg:grid-cols-3 gap-8"
+          ? "lg:w-[90%] grid grid-cols-1 lg:grid-cols-3 gap-8 lg:items-start"
           : "md:w-[85%] lg:w-[70%]"
       }`}
     >
@@ -49,7 +49,9 @@ const { hasSidebar = false } = Astro.props;
 
   @media (min-width: 1024px) {
     .sidebar-wrapper {
-      position: relative;
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
       height: fit-content;
     }
   }

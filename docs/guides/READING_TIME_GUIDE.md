@@ -7,17 +7,20 @@ The blog now features an intelligent reading time calculation system that estima
 ## Features
 
 ✨ **Accurate Calculation**
+
 - Counts only written text content
 - Excludes JSX/component syntax
 - Excludes code blocks and inline code
 - Excludes markdown formatting
 
 🔧 **Configurable**
+
 - Adjustable words per minute (default: 200)
 - Configurable minimum reading time (default: 1 minute)
 - Easy to customize globally or per-post
 
 📊 **Detailed Information**
+
 - Reading time in minutes
 - Formatted string (e.g., "5 min read")
 - Word count
@@ -46,6 +49,7 @@ Minimum Reading Time = 1 minute (configurable)
 ```
 
 **Example:**
+
 - 227 words ÷ 200 wpm = 1.135 minutes → **2 min read**
 - 150 words ÷ 200 wpm = 0.75 minutes → **1 min read** (minimum)
 
@@ -67,7 +71,7 @@ const enrichedPosts = await Promise.all(
   blogPosts.map(async (post) => {
     const readingTime = getReadingTime(post.body, READING_TIME_CONFIG);
     return { ...post, readingTime };
-  })
+  }),
 );
 ```
 
@@ -93,6 +97,7 @@ const readingTime = getReadingTime(content);
 ```
 
 **Parameters:**
+
 - `content` (string | undefined) - Raw markdown/mdx content
 - `config` (ReadingTimeConfig, optional) - Configuration options
 
@@ -108,6 +113,7 @@ const minutes = calculateReadingTimeMinutes(content);
 ```
 
 **Parameters:**
+
 - `content` (string | undefined) - Raw markdown/mdx content
 - `config` (ReadingTimeConfig, optional) - Configuration options
 
@@ -128,6 +134,7 @@ const details = getReadingTimeDetails(content);
 ```
 
 **Parameters:**
+
 - `content` (string | undefined) - Raw markdown/mdx content
 - `config` (ReadingTimeConfig, optional) - Configuration options
 
@@ -142,6 +149,7 @@ const cleaned = extractWrittenContent(content);
 ```
 
 **Parameters:**
+
 - `content` (string | undefined) - Raw markdown/mdx content
 
 **Returns:** Cleaned text content
@@ -155,6 +163,7 @@ const wordCount = countWords(text);
 ```
 
 **Parameters:**
+
 - `text` (string) - Text to count
 
 **Returns:** Word count
@@ -167,8 +176,8 @@ Edit the `READING_TIME_CONFIG` in `src/pages/blog.astro` and `src/pages/posts/[p
 
 ```typescript
 const READING_TIME_CONFIG = {
-  wordsPerMinute: 200,  // Adjust reading speed
-  minReadingTime: 1,    // Minimum reading time in minutes
+  wordsPerMinute: 200, // Adjust reading speed
+  minReadingTime: 1, // Minimum reading time in minutes
 };
 ```
 
@@ -178,8 +187,8 @@ You can pass custom configuration to any function:
 
 ```typescript
 const readingTime = getReadingTime(content, {
-  wordsPerMinute: 250,  // Faster readers
-  minReadingTime: 2,    // Minimum 2 minutes
+  wordsPerMinute: 250, // Faster readers
+  minReadingTime: 2, // Minimum 2 minutes
 });
 ```
 
@@ -206,9 +215,9 @@ console.log(readingTime); // "1 min read"
 import { getReadingTimeDetails } from "../utils/readingTime";
 
 const details = getReadingTimeDetails(content);
-console.log(`${details.wordCount} words`);        // "227 words"
-console.log(`${details.minutes} min read`);       // "2 min read"
-console.log(`${details.wordsPerMinute} wpm`);     // "200 wpm"
+console.log(`${details.wordCount} words`); // "227 words"
+console.log(`${details.minutes} min read`); // "2 min read"
+console.log(`${details.wordsPerMinute} wpm`); // "200 wpm"
 ```
 
 ### Example 3: Custom Configuration
@@ -241,8 +250,15 @@ The `FeaturedBlogCard` component displays reading time:
   description={post.data.description}
   date={post.data.date}
   href={`/posts/${post.id}`}
-  readingTime={post.readingTime}  <!-- "5 min read" -->
-/>
+  readingTime={post.readingTime}
+  <!--
+  "5
+  min
+  read"
+  --
+>
+  /></FeaturedBlogCard
+>
 ```
 
 ### Post Page
@@ -288,12 +304,14 @@ More text here...
 ## Best Practices
 
 ✅ **Do:**
+
 - Use realistic content for testing
 - Adjust `wordsPerMinute` based on content type
 - Display reading time prominently
 - Update reading time when content changes
 
 ❌ **Don't:**
+
 - Hardcode reading times
 - Count code blocks or components
 - Ignore the minimum reading time setting
@@ -312,6 +330,7 @@ More text here...
 **Cause:** The `wordsPerMinute` setting might not match your audience.
 
 **Solution:** Adjust the `wordsPerMinute` value in the configuration:
+
 - Technical content: 150-180 wpm
 - General content: 200-250 wpm
 - Light content: 250+ wpm
@@ -325,6 +344,7 @@ More text here...
 ## Performance
 
 The reading time calculation is:
+
 - ✅ **Fast** - Runs at build time, not runtime
 - ✅ **Efficient** - Simple regex and string operations
 - ✅ **Scalable** - Works with any number of posts
@@ -332,6 +352,7 @@ The reading time calculation is:
 ## Future Enhancements
 
 Potential improvements:
+
 - [ ] Support for different languages (adjust wpm)
 - [ ] Difficulty level estimation
 - [ ] Estimated completion time

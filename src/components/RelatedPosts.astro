@@ -20,7 +20,7 @@ const relatedPosts = allPosts
   .map((post) => {
     // Calculate relevance score based on shared tags
     const sharedTags = (post.data.tags || []).filter((tag) =>
-      currentTags.includes(tag)
+      currentTags.includes(tag),
     );
     return {
       post,

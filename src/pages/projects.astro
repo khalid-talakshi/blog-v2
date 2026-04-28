@@ -4,7 +4,9 @@ import ProjectModal from "../components/ProjectModal";
 import { getCollection } from "astro:content";
 
 // Get all projects
-const projects = (await getCollection("projects")).filter((x) => x.data.hidden != true);
+const projects = (await getCollection("projects")).filter(
+  (x) => x.data.hidden != true,
+);
 
 // Get unique tags, technologies, and types
 const allTags = Array.from(

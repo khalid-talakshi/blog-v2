@@ -18,9 +18,9 @@ export function generateSlug(text: string): string {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-'); // Replace multiple hyphens with single hyphen
+    .replace(/[^\w\s-]/g, "") // Remove special characters
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-"); // Replace multiple hyphens with single hyphen
 }
 
 /**
@@ -31,7 +31,7 @@ export function generateSlug(text: string): string {
 export function extractTableOfContents(): TocEntry[] {
   // Get all h2 and h3 elements from the prose content
   const headings = Array.from(
-    document.querySelectorAll('.prose h2, .prose h3')
+    document.querySelectorAll(".prose h2, .prose h3"),
   ) as HTMLElement[];
 
   const toc: TocEntry[] = [];
@@ -39,7 +39,7 @@ export function extractTableOfContents(): TocEntry[] {
 
   headings.forEach((heading) => {
     const level = parseInt(heading.tagName[1]);
-    const title = heading.textContent || '';
+    const title = heading.textContent || "";
     let id = heading.id;
 
     // Generate ID if it doesn't exist
