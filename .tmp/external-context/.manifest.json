@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-28T00:00:00Z",
+  "libraries": {
+    "astro": {
+      "files": [
+        {
+          "filename": "latex-markdown-mdx-remark-math-rehype-katex.md",
+          "topic": "markdown and mdx latex support",
+          "tech_stack": "Astro 6",
+          "fetched": "2026-04-28T00:00:00Z",
+          "source": "Context7 API"
+        }
+      ]
+    }
+  }
+}
