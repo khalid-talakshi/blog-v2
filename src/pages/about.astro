@@ -153,7 +153,12 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                     <div class="text-sm text-theme-text/60 whitespace-nowrap">
                       {formatDateRange(exp.data.startDate, exp.data.endDate)}
                       <span class="ml-2 text-theme-primary">
-                        ({calculateDuration(exp.data.startDate, exp.data.endDate)})
+                        (
+                        {calculateDuration(
+                          exp.data.startDate,
+                          exp.data.endDate,
+                        )}
+                        )
                       </span>
                     </div>
                   </div>
@@ -164,15 +169,16 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                     </Prose>
                   </div>
 
-                  {exp.data.technologies && exp.data.technologies.length > 0 && (
-                    <div class="flex flex-wrap gap-2">
-                      {exp.data.technologies.map((tech: string) => (
-                        <span class="inline-block px-3 py-1 rounded-full bg-theme-primary/20 text-xs font-medium text-theme-primary">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {exp.data.technologies &&
+                    exp.data.technologies.length > 0 && (
+                      <div class="flex flex-wrap gap-2">
+                        {exp.data.technologies.map((tech: string) => (
+                          <span class="inline-block px-3 py-1 rounded-full bg-theme-primary/20 text-xs font-medium text-theme-primary">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                 </div>
               </div>
             );
@@ -210,7 +216,9 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                               {edu.data.degree}
                             </h4>
                             <p class="text-theme-text/70">{edu.data.school}</p>
-                            <p class="text-sm text-theme-text/60">{edu.data.field}</p>
+                            <p class="text-sm text-theme-text/60">
+                              {edu.data.field}
+                            </p>
                           </div>
                           <div class="text-sm text-theme-text/60 whitespace-nowrap">
                             {edu.data.graduationDate
@@ -252,7 +260,9 @@ const getOverflowSkills = (skills: readonly string[]): readonly string[] => {
                         </span>
                       </div>
 
-                      <p class="text-theme-text/70 mb-2">{certificate.data.issuer}</p>
+                      <p class="text-theme-text/70 mb-2">
+                        {certificate.data.issuer}
+                      </p>
 
                       <Prose>
                         <CertificateContent />
