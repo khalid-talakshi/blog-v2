@@ -12,6 +12,7 @@ docs/
 │   ├── COLOR_MAPPING_GUIDE.md        # Color mapping and theming
 │   ├── COLOR_SCALE_GUIDE.md          # Color scale implementation
 │   ├── TRACE_FORMAT_GUIDE.md         # Trace format specification
+│   ├── LATEX_MARKDOWN_GUIDE.md       # LaTeX syntax and math rendering guide
 │   └── ECHARTS_MIGRATION_GUIDE.md    # ECharts migration from Recharts
 ├── references/                        # Reference documentation and API docs
 │   ├── COLOR_MAPPING_QUICK_START.md  # Quick start for color mapping
@@ -53,6 +54,11 @@ Step-by-step guides and comprehensive tutorials for implementing features.
   - Format definition
   - Usage guidelines
   - Examples
+
+- **LATEX_MARKDOWN_GUIDE.md** - Writing LaTeX math in Markdown/MDX
+  - Inline and block math syntax
+  - Common equation patterns
+  - Troubleshooting rendering issues
 
 - **ECHARTS_MIGRATION_GUIDE.md** - Migrating from Recharts to ECharts
   - Migration steps
@@ -178,6 +184,7 @@ When adding new AI-generated documentation:
 ### Getting Started
 
 - [Reading Time Guide](guides/READING_TIME_GUIDE.md) - Calculate reading time for blog posts
+- [LaTeX Markdown Guide](guides/LATEX_MARKDOWN_GUIDE.md) - Write inline and block equations
 - [Color Mapping Quick Start](references/COLOR_MAPPING_QUICK_START.md) - Quick color setup
 
 ### Implementation References
@@ -192,8 +199,8 @@ When adding new AI-generated documentation:
 
 ## 📊 Documentation Statistics
 
-- **Total Documents:** 13
-- **Guides:** 5
+- **Total Documents:** 14
+- **Guides:** 6
 - **References:** 5
 - **Migrations:** 0
 - **Checklists:** 1
