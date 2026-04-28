@@ -2,7 +2,7 @@
 title: "Using LaTeX Math in Astro Markdown"
 author: "Khalid Talakshi"
 description: "A practical example of inline and block LaTeX math rendering in this Astro site."
-published: true
+published: false
 date: 28-04-2026
 tags: ["docs", "astro", "latex", "math"]
 ---
