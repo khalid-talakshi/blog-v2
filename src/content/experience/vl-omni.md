@@ -10,4 +10,5 @@ technologies:
   - "Azure"
 ---
 
-This is a placeholder experience entry. Replace this with your actual work experience.
+- Built E-Commerce connections between storefront software and enterprise resource planning (ERP) systems, allowing for seamless data synchronization and improved operational efficiency.
+- Helped in the design of a centralized platform for managing integrations between e-commerce platforms

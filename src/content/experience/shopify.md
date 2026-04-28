@@ -10,4 +10,6 @@ technologies:
   - "Ruby on Rails"
 ---
 
-This is a placeholder experience entry. Replace this with your actual work experience.
+- Built features for the Shopify Facebook Sales Channel, allowing users to sell their products on Facebook and Instagram
+- Improved our Files Section of the Shopify Admin, unlocking user creation flows while saving costs on storage
+- Researched and Developed the Buy with Prime program on Shopify, working closely with stakeholders to improve various parts of the Shopify ecosystem

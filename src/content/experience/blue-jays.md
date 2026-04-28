@@ -9,4 +9,5 @@ technologies:
   - "Three.JS"
 ---
 
-This is a placeholder experience entry. Replace this with your actual work experience.
+- Designed, developed, and maintained Baseball Analytics Systems
+- Improved various processes for scouting and player development staff using custom Slack Applications
